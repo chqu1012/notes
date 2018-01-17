@@ -1,0 +1,11 @@
+    Application.ScreenUpdating = False        
+      With Tabelle1        
+        For Index = 1 To Tabelle1.Cells(Rows.Count, 1).End(xlUp).Row          
+          .Range("$B$1:$F$" & Index).AutoFilter Field:=2, Criteria1:="Abt"          
+          .Range("$B$1:$F$" & Index).AutoFilter Field:=3, Criteria1:="Kram" 
+          // WorksheetFunction.Sum geht an der Stelle nicht, da er alle Werte von der Spalte nimmt, hier nimmt er Teilsum von sichtbaren
+          .Range("L1").Value = WorksheetFunction.Subtotal(9, .Columns(6))          
+          .ShowAllData        
+        Next Index    
+      End With        
+    Application.ScreenUpdating = True
