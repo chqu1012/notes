@@ -1,0 +1,8 @@
+Private Sub CommandButton1_Click()    
+  With Worksheets(1)            
+    i = .Range("B65536").End(xlUp).Row            
+    .Cells(i + 1, 2).Value = TextBox1.Value            
+    .Cells(i + 1, 3).Value = TextBox2.Value            
+    .Cells(i + 1, 4).Value = TextBox2.Value    
+  End With
+End Sub
