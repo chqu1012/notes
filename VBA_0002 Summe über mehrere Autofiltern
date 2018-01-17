@@ -1,4 +1,6 @@
-    Application.ScreenUpdating = False        
+    Link: https://www.informatik-aktuell.de/entwicklung/programmiersprachen/clevere-auswertungen-per-vba-mit-dem-autofilter-von-excel.html
+    
+    Application.ScreenUpdating = False        
       With Tabelle1        
         For Index = 1 To Tabelle1.Cells(Rows.Count, 1).End(xlUp).Row          
           .Range("$B$1:$F$" & Index).AutoFilter Field:=2, Criteria1:="Abt"          
