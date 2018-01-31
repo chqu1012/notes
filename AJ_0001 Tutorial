@@ -1,0 +1,41 @@
+Link: http://regenrek.at/blog/angularjs-schnelleinstieg-deutsch/#angularjs-installation
+
+Skript laden_
+* <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+
+Referenzen:
+* String Input: ng-model="my_name" -> {{my_name}}
+  Bsp: <input type="text" ng-model="my_name" placeholder="Name hier eingeben" />
+* Number Input: <input type="number" ng-model="my_width" placeholder="Breite" />
+  <p>Test: {{ my_width * my_width }} </p>
+* Controller definieren:
+  ng-controller="mainController"
+  // ng-repeat geht alle Zutaten durch und gibt das Zutat als Objekt mit den Namen aus
+  <ul>
+    <li ng-repeat="zutat in zutaten">{{zutat.name}}</li>
+  </ul>
+  In der apps.js:
+  // neueZutat ist eine Funktion, die den Wert von inpZutat list und in Zutaten pushed
+  function mainController($scope) {
+    $scope.zutaten = [
+      { name: "Dinkel-Vollkornmehl" },
+      { name: "Würfel Hefe" },
+      { name: "geschälte Tomaten" },
+      { name: "Mozzarella" },
+      { name: "Mais" }
+    ];
+    $scope.neueZutat = function() {
+    $scope.zutaten.push({
+        name:$scope.inpZutat
+      });
+      // Textfeld leeren
+      $scope.inpZutat = '';
+    };
+  }
+* Methode über Button aufrufen: <button type="submit" ng-click="neueZutat()">Hinzufügen</button> 
+* Filter:
+  <input type="text" ng-model="inpZutatSuche" placeholder="Suche..." />
+  <li ng-repeat="zutat in zutaten | filter : inpZutatSuche">{{zutat.name}}</li>
+
+
+
