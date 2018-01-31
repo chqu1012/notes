@@ -1,0 +1,9 @@
+VBA Code:
+Function Area(x As Double, y As Double) As Double
+ Area = x * y
+End Function
+
+Excel Zelle:
+= Area(12; 12) => 144
+
+link: http://www.excel-easy.com/vba/function-sub.html
