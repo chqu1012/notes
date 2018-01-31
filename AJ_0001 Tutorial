@@ -36,6 +36,33 @@ Referenzen:
 * Filter:
   <input type="text" ng-model="inpZutatSuche" placeholder="Suche..." />
   <li ng-repeat="zutat in zutaten | filter : inpZutatSuche">{{zutat.name}}</li>
+------------------------------------------------------------------------------------------------------------------------
+AngularJS Module
 
+// Controller für Controller, Services, etc.
+// myApp ist der Namespace, muss im Body bekannt gemacht werden
+var mainApp = angular.module('myApp', []);
+mainApp.controller('mainCtrl', function($scope) {
+ // applikationslogik
+});
 
+<body ng-app="myApp"> </body>
+------------------------------------------------------------------------------------------------------------------------
+Direktiven
+
+// Die Methode directive erzeugt mir meine eigene Direktive die ich bigButton nenne. Achtung, wenn 
+// ihr die CamelCase Notation verwendet, muss der Aufruf der Direktive im Template mit Bindestrichen erfolgen big-button.
+
+var myApp = angular.module('myApp', []);
+myApp.directive('bigButton', function() {
+  return {
+    restrict: 'E,A',
+    transclude: true,
+    replace: true,
+    template: '<a href="" ng-transclude style="background-color: #333;color:#fff;font-size:25px; padding: 3px 8px;"></a>',
+    link: function(scope, element, attrs) {
+      // do something
+    }
+  };
+});
 
