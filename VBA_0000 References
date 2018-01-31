@@ -1,0 +1,2 @@
+* Letzte Zeile bestimmen: ```letzte_Zeile = ThisWorkbook.Sheets("DATEN").Cells(Rows.Count, 1).End(xlUp).Row```
+* Monat von Datum: ```Month(datum)```
