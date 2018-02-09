@@ -1,0 +1,27 @@
+<table id="myTable">
+
+  <thead>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Gender</th>
+    <th>Action</th>
+  </thead>
+
+  <tbody>
+    <tr th:each="data : ${datas}">
+      <td th:text="${data.id}">0</td>
+      <td th:text="${data.name}">Default-Value</td>
+      <td th:text="${data.gender}">Man</td>
+      <td class="text-center">
+        <button th:id="${data.id}" type="button" style="padding-top: 0px" th:onclick="'edit(\'' + ${data.id} + '\');'"></button>
+       </td>
+    </tr>
+  </tbody>
+  
+</table>
+
+**************************************************************************************************************************
+<script>
+  function editid) {
+  }
+</script>
