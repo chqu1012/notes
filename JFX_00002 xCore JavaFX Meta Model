@@ -9,7 +9,7 @@ class JfxProject extends JfxNamedElement{
 	contains JfxNode[] root
 }
 
-class JfxNode extends JfxNamedElement{
+abstract class JfxNode extends JfxNamedElement{
 	int x = '0'
 	int y = '0'
 	int width = '0'
@@ -56,7 +56,7 @@ class JfxAnchor{
 	int bottom = '0'
 }
 
-class JfxLayoutGapElement extends JfxLayout{
+abstract class JfxLayoutGapElement extends JfxLayout{
 	int vGap='0'	
 	int hGap='0'
 }
@@ -86,7 +86,7 @@ class JfxLabel extends JfxTextElement{
 	boolean wrapText = 'false'
 }
 
-class JfxParentElement<T> extends JfxNode{
+abstract class JfxParentElement<T> extends JfxNode{
 	contains T[0..*] children
 }
 
@@ -105,7 +105,7 @@ class JfxPasswordField extends JfxNode{
 	String promptText = ''
 }
 class JfxScrollBar extends JfxNode{}
-class JfxScrollPabe extends JfxNode{
+class JfxScrollPane extends JfxNode{
 	JfxScrollBarPolicy hBarPolicy
 	JfxScrollBarPolicy vBarPolicy
 	contains JfxNode[0..1] content
