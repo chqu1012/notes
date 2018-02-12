@@ -1,0 +1,165 @@
+@GenModel(runtimePlatform="RCP", modelName="jfx", editDirectory="/de.dc.jfx.model.edit/src-gen", editorDirectory="/de.dc.jfx.model.editor/src-gen")
+package de.dc.jfx.model
+
+abstract class JfxNamedElement{
+	String name=""
+}
+
+class JfxProject extends JfxNamedElement{
+	contains JfxNode[] root
+}
+
+class JfxNode extends JfxNamedElement{
+	int x = '0'
+	int y = '0'
+	int width = '0'
+	int height = '0'
+	String style=''
+	boolean isVisible='true'
+	boolean isDisable='false'
+	contains JfxAnchor[0..1] anchor
+}
+
+abstract class JfxLayout extends JfxNode{
+	contains JfxNode[0..*] children
+}
+
+class JfxVbox extends JfxLayout{
+	int spacing = '0'
+}
+class JfxHbox extends JfxLayout{
+	int spacing = '0'
+}
+class JfxGridPane extends JfxLayoutGapElement{
+	contains JfxInxets[0..1] padding
+}
+
+class JfxBorderPane extends JfxLayout{
+	contains JfxNode[0..1] left
+	contains JfxNode[0..1] right
+	contains JfxNode[0..1] top
+	contains JfxNode[0..1] bottom
+	contains JfxNode[0..1] center
+}
+
+class JfxAnchorPane extends JfxLayout{}
+
+class JfxTilePane extends JfxLayoutGapElement{
+	contains JfxInxets[0..1] padding
+	int prefColumns='1'
+}
+
+class JfxAnchor{
+	int left = '0'	
+	int right = '0'
+	int top = '0'	
+	int bottom = '0'
+}
+
+class JfxLayoutGapElement extends JfxLayout{
+	int vGap='0'	
+	int hGap='0'
+}
+
+class JfxInxets{
+	int left = '0'	
+	int right = '0'
+	int top = '0'	
+	int bottom = '0'
+}
+
+enum JfxColor{
+	CUSTOM, ALICEBLUE, ANTIQUEWHITE, AQUA, AQUAMARINE, AZURE, BEIGE, BISQUE, BLACK, BLANCHEDALMOND, BLUE, BLUEVIOLET, BROWN, BURLYWOOD, CADETBLUE, CHARTREUSE, CHOCOLATE, CORAL, CORNFLOWERBLUE, CORNSILK, CRIMSON, CYAN, DARKBLUE, DARKCYAN, DARKGOLDENROD, DARKGRAY, DARKGREEN, DARKGREY, DARKKHAKI, DARKMAGENTA, DARKOLIVEGREEN, DARKORANGE, DARKORCHID, DARKRED, DARKSALMON, DARKSEAGREEN, DARKSLATEBLUE, DARKSLATEGRAY, DARKSLATEGREY, DARKTURQUOISE, DARKVIOLET, DEEPPINK, DEEPSKYBLUE, DIMGRAY, DIMGREY, DODGERBLUE, FIREBRICK, FLORALWHITE, FORESTGREEN, FUCHSIA, GAINSBORO, GHOSTWHITE, GOLD, GOLDENROD, GRAY, GREEN, GREENYELLOW, GREY, HONEYDEW, HOTPINK, INDIANRED, INDIGO, IVORY, KHAKI, LAVENDER, LAVENDERBLUSH, LAWNGREEN, LEMONCHIFFON, LIGHTBLUE, LIGHTCORAL, LIGHTCYAN, LIGHTGOLDENRODYELLOW, LIGHTGRAY, LIGHTGREEN, LIGHTGREY, LIGHTPINK, LIGHTSALMON, LIGHTSEAGREEN, LIGHTSKYBLUE, LIGHTSLATEGRAY, LIGHTSLATEGREY, LIGHTSTEELBLUE, LIGHTYELLOW, LIME, LIMEGREEN, LINEN, MAGENTA, MAROON, MEDIUMAQUAMARINE, MEDIUMBLUE, MEDIUMORCHID, MEDIUMPURPLE, MEDIUMSEAGREEN, MEDIUMSLATEBLUE, MEDIUMSPRINGGREEN, MEDIUMTURQUOISE, MEDIUMVIOLETRED, MIDNIGHTBLUE, MINTCREAM, MISTYROSE, MOCCASIN, NAVAJOWHITE, NAVY, OLDLACE, OLIVE, OLIVEDRAB, ORANGE, ORANGERED, ORCHID, PALEGOLDENROD, PALEGREEN, PALETURQUOISE, PALEVIOLETRED, PAPAYAWHIP, PEACHPUFF, PERU, PINK, PLUM, POWDERBLUE, PURPLE, RED, ROSYBROWN, ROYALBLUE, SADDLEBROWN, SALMON, SANDYBROWN, SEAGREEN, SEASHELL, SIENNA, SILVER, SKYBLUE, SLATEBLUE, SLATEGRAY, SLATEGREY, SNOW, SPRINGGREEN, STEELBLUE, TAN, TEAL, THISTLE, TOMATO, TRANSPARENT, TURQUOISE, VIOLET, WHEAT, WHITE, WHITESMOKE, YELLOW, YELLOWGREEN 
+}
+
+abstract class JfxTextElement{
+	contains JfxImageView[0..1] image
+	String text = ''
+	JfxColor textFill 
+}
+
+abstract class JfxSelectableEment{
+	boolean isSelcted='false'
+}
+
+class JfxLabel extends JfxTextElement{
+	boolean wrapText = 'false'
+}
+
+class JfxParentElement<T> extends JfxNode{
+	contains T[0..*] children
+}
+
+class JfxButton extends JfxTextElement, JfxSelectableEment{}
+class JfxRadioButton extends JfxTextElement, JfxSelectableEment{}
+class JfxToggleButton extends JfxTextElement, JfxSelectableEment{}
+class JfxCheckbox extends JfxTextElement, JfxSelectableEment{}
+
+class JfxChoiceBox extends JfxParentElement<JfxChoiceItem>{}
+class JfxChoiceItem extends JfxNamedElement{}
+
+class JfxTextField extends JfxNode{
+	String promptText = ''
+}
+class JfxPasswordField extends JfxNode{
+	String promptText = ''
+}
+class JfxScrollBar extends JfxNode{}
+class JfxScrollPabe extends JfxNode{
+	JfxScrollBarPolicy hBarPolicy
+	JfxScrollBarPolicy vBarPolicy
+	contains JfxNode[0..1] content
+}
+enum JfxScrollBarPolicy{
+	Never, Always
+}
+
+class JfxListView extends JfxNode{}
+
+class JfxTableView extends JfxParentElement<JfxTableColumn>{
+	boolean editable = 'false'
+}
+class JfxTableColumn extends JfxNode{
+	boolean usePropertyValueFactory ='false'
+	int minWidth = '100'
+}
+
+class JfxTreeView extends JfxNode{
+	boolean editable = 'false'
+}
+class JfxTreeTable extends JfxNode{
+	boolean editable = 'false'
+}
+class JfxComboBox extends JfxNode{
+	boolean editable = 'false'
+	String promptText = ''
+}
+class JfxSeparator extends JfxNode{
+	JfxOrientation orientation
+}
+
+enum JfxOrientation{
+	VERTICAL, HORIZONTAL
+}
+
+class JfxSlider extends JfxNode{
+	int min = '0'
+	int max = '0'
+	int value = '0'
+	boolean showTickLabels = 'true'
+	boolean showTickMarks = 'true'
+	int majorTickUnit = '0'
+	int minorTickUnit = '0'
+	int blockInrement = '0'
+}
+
+class JfxProgressBar extends JfxNode{}
+class JfxProgressIndicator extends JfxNode{}
+class JfxHyperlink extends JfxNode{}
+class JfxTooltip extends JfxNode{}
+class JfxHtmlEditor extends JfxNode{}
+class JfxMenu extends JfxNode{}
+class JfxColorPicker extends JfxNode{}
+class JfxPagination extends JfxNode{}
+class JfxFileChooser extends JfxNode{}
+class JfxImageView extends JfxNode{}
