@@ -10,14 +10,35 @@ class JfxProject extends JfxNamedElement{
 }
 
 abstract class JfxNode extends JfxNamedElement{
-	int x = '0'
-	int y = '0'
-	int width = '0'
-	int height = '0'
+	double x = '0'
+	double y = '0'
+	double width = '0'
+	double height = '0'
+	double minWidth = '0'
+	double minHeight = '0'
+	double maxWidth = '0'
+	double maxHeight = '0'
 	String style=''
 	boolean isVisible='true'
 	boolean isDisable='false'
-	contains JfxAnchor[0..1] anchor
+	contains JfxLayoutData[0..1] layoutData
+}
+
+abstract class JfxLayoutData{}
+
+class JfxAnchorData extends JfxLayoutData{
+	double left = '-1.0'	
+	double right = '-1.0'
+	double top = '-1.0'	
+	double bottom = '-1.0'
+}
+
+class JfxHboxData extends JfxLayoutData{
+	JfxPriority hGrow
+}
+
+class JfxVboxData extends JfxLayoutData{
+	JfxPriority vGrow
 }
 
 abstract class JfxLayout extends JfxNode{
@@ -25,11 +46,16 @@ abstract class JfxLayout extends JfxNode{
 }
 
 class JfxVbox extends JfxLayout{
-	int spacing = '0'
+	double spacing = '0'
 }
 class JfxHbox extends JfxLayout{
-	int spacing = '0'
+	double spacing = '0'
 }
+
+enum JfxPriority{
+	ALWAYS, NEVER, SOMETIMES
+}
+
 class JfxGridPane extends JfxLayoutGapElement{
 	contains JfxInxets[0..1] padding
 }
@@ -49,23 +75,16 @@ class JfxTilePane extends JfxLayoutGapElement{
 	int prefColumns='1'
 }
 
-class JfxAnchor{
-	int left = '0'	
-	int right = '0'
-	int top = '0'	
-	int bottom = '0'
-}
-
 abstract class JfxLayoutGapElement extends JfxLayout{
-	int vGap='0'	
-	int hGap='0'
+	double vGap='0.0'	
+	double hGap='0.0'	
 }
 
 class JfxInxets{
-	int left = '0'	
-	int right = '0'
-	int top = '0'	
-	int bottom = '0'
+	double left = '0.0'	
+	double right = '0.0'	
+	double top = '0.0'		
+	double bottom = '0.0'	
 }
 
 enum JfxColor{
@@ -94,7 +113,10 @@ class JfxButton extends JfxTextElement, JfxSelectableEment{}
 class JfxRadioButton extends JfxTextElement, JfxSelectableEment{}
 class JfxToggleButton extends JfxTextElement, JfxSelectableEment{}
 class JfxCheckbox extends JfxTextElement, JfxSelectableEment{}
-
+class JfxTabPane extends JfxParentElement<JfxTab>{}
+class JfxTab extends JfxLayout{
+	
+}
 class JfxChoiceBox extends JfxParentElement<JfxChoiceItem>{}
 class JfxChoiceItem extends JfxNamedElement{}
 
@@ -121,7 +143,6 @@ class JfxTableView extends JfxParentElement<JfxTableColumn>{
 }
 class JfxTableColumn extends JfxNode{
 	boolean usePropertyValueFactory ='false'
-	int minWidth = '100'
 }
 
 class JfxTreeView extends JfxNode{
@@ -143,14 +164,14 @@ enum JfxOrientation{
 }
 
 class JfxSlider extends JfxNode{
-	int min = '0'
-	int max = '0'
-	int value = '0'
+	double min = '0'
+	double max = '0'
+	double value = '0'
 	boolean showTickLabels = 'true'
 	boolean showTickMarks = 'true'
-	int majorTickUnit = '0'
-	int minorTickUnit = '0'
-	int blockInrement = '0'
+	double majorTickUnit = '0'
+	double minorTickUnit = '0'
+	double blockInrement = '0'
 }
 
 class JfxProgressBar extends JfxNode{}
