@@ -1,0 +1,162 @@
+####################################################################################################
+public class JfxAdvancedUIRenderer extends JfxBasicUIRenderer{
+
+	@Override
+	public Node caseJfxTabPane(JfxTabPane i) {
+		TabPane parent = new TabPane();
+		i.getChildren().forEach(child ->{ 
+			Tab tab = new Tab(child.getName());
+			child.getChildren().forEach(node -> tab.setContent(doSwitch(node)));
+			parent.getTabs().add(tab);
+		});
+		setSize(i, parent);
+		setStylePreferences(i, parent);
+		setLayoutData(i, parent);
+		return parent;
+	}
+	
+	@Override
+	public Node caseJfxTableView(JfxTableView i) {
+		TableView parent = new TableView();
+		parent.setEditable(i.isEditable());
+		i.getChildren().forEach(column->{
+			TableColumn jfxColumn = new TableColumn<>();
+			jfxColumn.setPrefWidth(column.getWidth());
+			jfxColumn.setText(column.getName());
+			parent.getColumns().add(jfxColumn);
+		});
+		return parent;
+	}
+}
+####################################################################################################
+public class JfxBasicUIRenderer extends JfxLayoutRenderer{
+
+	@Override
+	public Node caseJfxButton(JfxButton i) {
+		Button parent = new Button();
+		parent.setText(i.getText());
+		parent.setOnAction(event -> System.out.println("Hello World!"));
+		setSize(i, parent);
+		setStylePreferences(i, parent);
+		setLayoutData(i, parent);
+		return parent;
+	}
+	
+	@Override
+	public Node caseJfxLabel(JfxLabel i) {
+		Label parent = new Label(i.getText());
+		parent.setWrapText(i.isWrapText());
+		setSize(i, parent);
+		setStylePreferences(i, parent);
+		setLayoutData(i, parent);
+		return parent;
+	}
+	
+	@Override
+	public Node caseJfxTextField(JfxTextField  i) {
+		TextField parent = new TextField();
+		setSize(i, parent);
+		setStylePreferences(i, parent);
+		setLayoutData(i, parent);
+		return parent;
+	}
+}
+####################################################################################################
+
+public class JfxLayoutRenderer extends ModelSwitch<Node> {
+
+	@Override
+	public Node caseJfxVbox(JfxVbox i) {
+		VBox parent = new VBox();
+		parent.setSpacing(i.getSpacing());
+		setStylePreferences(i, parent);
+		setBoxPreferences(i, parent);
+		return parent;
+	}
+
+	@Override
+	public Node caseJfxHbox(JfxHbox i) {
+		HBox parent = new HBox();
+		parent.setSpacing(i.getSpacing());
+		setStylePreferences(i, parent);
+		setBoxPreferences(i, parent);
+		return parent;
+	}
+
+	@Override
+	public Node caseJfxGridPane(JfxGridPane i) {
+		GridPane parent = new GridPane();
+		parent.setHgap(i.getHGap());
+		parent.setVgap(i.getVGap());
+		setStylePreferences(i, parent);
+		setBoxPreferences(i, parent);
+		return parent;
+	}
+
+	@Override
+	public Node caseJfxAnchorPane(JfxAnchorPane i) {
+		AnchorPane parent = new AnchorPane();
+		setStylePreferences(i, parent);
+		setBoxPreferences(i, parent);
+		i.getChildren().forEach(node -> setLayoutData(node, doSwitch(node)));
+		return parent;
+	}
+	
+	protected void setStylePreferences(JfxNode i, Region parent) {
+		parent.setStyle(i.getStyle());
+	}
+
+	protected void setSize(JfxNode node, Region jfxNode){
+		if (node.getHeight()>0)
+			jfxNode.setPrefHeight(node.getHeight());
+		if (node.getWidth()>0)
+			jfxNode.setPrefWidth(node.getWidth());
+	}
+
+	protected void setLayoutData(JfxNode node, Node jfxNode) {
+		JfxLayoutData layoutData = node.getLayoutData();
+		if (layoutData instanceof JfxAnchorData) {
+			setJfxAnchorData(jfxNode, layoutData);
+		}else if (layoutData instanceof JfxHboxData) {
+			setJfxHboxData(jfxNode, layoutData);
+		}else if (layoutData instanceof JfxVboxData) {
+			setJfxVboxData(jfxNode, layoutData);
+		}
+	}
+
+	private void setJfxVboxData(Node jfxNode, JfxLayoutData layoutData) {
+		JfxVboxData data = (JfxVboxData) layoutData;
+		VBox.setVgrow(jfxNode, Priority.valueOf(data.getVGrow().getName()));		
+	}
+
+	protected void setJfxHboxData(Node jfxNode, JfxLayoutData layoutData) {
+		JfxHboxData data = (JfxHboxData) layoutData;
+		HBox.setHgrow(jfxNode, Priority.valueOf(data.getHGrow().getName()));
+
+	}
+
+	protected void setJfxAnchorData(Node jfxNode, JfxLayoutData layoutData) {
+		JfxAnchorData data = (JfxAnchorData) layoutData;
+		if (data != null) {
+			if (data.getLeft() > -1) {
+				AnchorPane.setLeftAnchor(jfxNode, data.getLeft());
+			}
+			if (data.getRight() > -1) {
+				AnchorPane.setRightAnchor(jfxNode, data.getRight());
+			}
+			if (data.getTop() > -1) {
+				AnchorPane.setTopAnchor(jfxNode, data.getTop());
+			}
+			if (data.getBottom() > -1) {
+				AnchorPane.setBottomAnchor(jfxNode, data.getBottom());
+			}
+		}
+	}
+
+	protected void setBoxPreferences(JfxLayout i, Pane parent) {
+		setSize(i, parent);
+		i.getChildren().forEach(node -> parent.getChildren().add(doSwitch(node)));
+	}
+}
+
+####################################################################################################
