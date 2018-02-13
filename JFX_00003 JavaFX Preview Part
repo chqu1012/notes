@@ -1,0 +1,43 @@
+   <extension
+         point="org.eclipse.ui.views">
+         <view id="de.dc.jfx.model.view.JfxPreview"
+             name="JavaFX Preview"
+          class="de.dc.jfx.model.view.JfxPreview"/>
+   </extension>
+   
+   ####################################################################################################
+   
+public class JfxPreview extends ViewPart implements ISelectionListener{
+
+  private FXCanvas fxCanvas;
+  private JfxAdvancedUIRenderer renderer = new JfxAdvancedUIRenderer();
+
+  @Override
+	public void createPartControl(Composite parent) {
+		 fxCanvas = new FXCanvas(parent, SWT.NONE);
+		 fxCanvas.setScene(new Scene(new Button()));
+		 PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().addSelectionListener(this);
+	}
+
+	@Override
+	public void setFocus() {
+		fxCanvas.forceFocus();
+	}
+
+	@Override
+	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+		if (selection instanceof IStructuredSelection) {
+			IStructuredSelection ss = (IStructuredSelection) selection;
+			if (ss.getFirstElement() instanceof JfxNode) {
+				JfxNode o = (JfxNode) ss.getFirstElement();
+				// Exclude JfxTab from selection service
+				if (o instanceof JfxTab || o instanceof JfxTableColumn) {
+					return;
+				}
+				Node node = renderer.doSwitch(o);
+				Scene scene = new Scene((Parent) node);
+				fxCanvas.setScene(scene);
+			}
+    }
+	}
+}
