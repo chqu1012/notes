@@ -1,0 +1,39 @@
+import de.dc.javafx.model.jfx.JfxTabPane;
+import de.dc.javafx.model.jfx.JfxTableView;
+import javafx.scene.Node;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+
+public class JfxAdvancedUIRenderer extends JfxBasicUIRenderer{
+
+	@Override
+	public Node caseJfxTabPane(JfxTabPane i) {
+		TabPane parent = new TabPane();
+		i.getChildren().forEach(child ->{ 
+			Tab tab = new Tab(child.getName());
+			child.getChildren().forEach(node -> tab.setContent(doSwitch(node)));
+			parent.getTabs().add(tab);
+			regristrateNode(child, parent);
+		});
+		setSize(i, parent);
+		setStylePreferences(i, parent);
+		setLayoutData(i, parent);
+		regristrateNode(i, parent);
+		return parent;
+	}
+	
+	@Override
+	public Node caseJfxTableView(JfxTableView i) {
+		TableView parent = new TableView();
+		parent.setEditable(i.isEditable());
+		i.getChildren().forEach(column->{
+			TableColumn jfxColumn = new TableColumn<>();
+			jfxColumn.setPrefWidth(column.getWidth());
+			jfxColumn.setText(column.getName());
+			parent.getColumns().add(jfxColumn);
+		});
+		return parent;
+	}
+}
