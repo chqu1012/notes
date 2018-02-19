@@ -1,0 +1,32 @@
+public class DateiGroeßeCellFactory<S, T>  implements Callback<TableColumn<S, T>, TableCell<S, T>> {
+
+	private static DecimalFormat decimalFormat = new DecimalFormat("###0.00 kB");
+	
+	@Override
+	public TableCell<S, T> call(TableColumn<S, T> p) {
+		TableCell<S, T> cell = new TableCell<S, T>() {
+			@Override
+			protected void updateItem(Object item, boolean empty) {
+				Datei datei = null;
+				if (getTableRow() != null) {
+					datei = (Datei) getTableRow().getItem();
+				}
+				super.updateItem((T) item, empty);
+				if (datei != null) {
+					setText(String.valueOf(decimalFormat.format(DateiHelper.getFileSize(datei))));
+				} else {
+					setText("");
+				}
+			}
+		};
+		return cell;
+	}
+}
+
+#######################################################################################################################################
+
+<TableColumn prefWidth="35.0">
+  <cellFactory>
+    <DateiGroeßeCellFactory/>
+  </cellFactory>
+</TableColumn>
