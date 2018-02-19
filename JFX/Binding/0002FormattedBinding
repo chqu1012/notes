@@ -1,0 +1,20 @@
+@Override
+    public void start(Stage primaryStage) {
+        HBox hbox = new HBox();
+
+        TextField t1 = new TextField();
+        TextField t2 = new TextField();
+
+        Label totalLabel = new Label();
+        totalLabel.textProperty().bind(Bindings.format("Total: %s", t1.textProperty()));
+        hbox.getChildren().add(totalLabel);
+
+        hbox.getChildren().add(t1);
+        hbox.getChildren().add(t2);
+
+        Scene scene = new Scene(hbox, 400, 400);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+https://stackoverflow.com/questions/29785996/javafx-bindings-is-there-any-way-to-bind-value-to-observable-list
