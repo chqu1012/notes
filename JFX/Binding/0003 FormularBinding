@@ -1,0 +1,11 @@
+public class Main {
+  public static void main(String[] args) {
+    // Area = width * height
+    IntegerProperty width = new SimpleIntegerProperty(10);
+    IntegerProperty height = new SimpleIntegerProperty(10);
+    NumberBinding area = width.multiply(height);
+    System.out.println(area.getValue());
+  }
+}
+
+http://www.java2s.com/Tutorials/Java/JavaFX/0210__JavaFX_Binding.htm
