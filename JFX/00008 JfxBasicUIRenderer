@@ -1,0 +1,49 @@
+import de.dc.javafx.model.jfx.JfxButton;
+import de.dc.javafx.model.jfx.JfxLabel;
+import de.dc.javafx.model.jfx.JfxNode;
+import de.dc.javafx.model.jfx.JfxTextField;
+import javafx.event.ActionEvent;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Region;
+
+public class JfxBasicUIRenderer extends JfxLayoutRenderer{
+
+	@Override
+	public Node caseJfxButton(JfxButton i) {
+		Button parent = new Button();
+		parent.setText(i.getText());
+		if (!i.getOnAction().isEmpty()) {
+			parent.setOnAction(event -> invokeControllerMethod(i.getOnAction(), event, ActionEvent.class));
+		}
+		setControlConfiguration(i, parent);
+		return parent;
+	}
+
+	@Override
+	public Node caseJfxLabel(JfxLabel i) {
+		Label parent = new Label(i.getText());
+		parent.setWrapText(i.isWrapText());
+		setControlConfiguration(i, parent);
+		return parent;
+	}
+	
+	@Override
+	public Node caseJfxTextField(JfxTextField  i) {
+		TextField parent = new TextField();
+		setControlConfiguration(i, parent);
+		if (!i.getOnAction().isEmpty()) {
+			parent.setOnAction(event -> invokeControllerMethod(i.getOnAction(), event, ActionEvent.class));
+		}
+		return parent;
+	}
+	
+	protected void setControlConfiguration(JfxNode node, Region parent) {
+		setSize(node, parent);
+		setStylePreferences(node, parent);
+		setLayoutData(node, parent);
+		regristrateNode(node, parent);
+	}
+}
