@@ -1,0 +1,56 @@
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
+
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+
+import de.dc.javafx.model.jfx.JfxFactory;
+import de.dc.javafx.model.jfx.JfxPackage;
+import de.dc.javafx.model.jfx.JfxProject;
+
+public class JfxProjectFile {
+
+    public JfxProject load(String filePath) {
+        URI uri = URI.createFileURI(filePath);
+
+        JfxPackage.eINSTANCE.eClass();
+        Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+        Map<String, Object> m = reg.getExtensionToFactoryMap();
+        m.put("jfx", new XMIResourceFactoryImpl());
+        ResourceSet resSet = new ResourceSetImpl();
+        Resource resource = resSet.getResource(uri, true);
+        JfxProject model = (JfxProject) resource.getContents().get(0);
+        return model;
+    }
+
+    public void write(JfxProject model, String path) {
+        URI uri = URI.createFileURI(path);
+        // Initialize the model
+        JfxPackage.eINSTANCE.eClass();
+        // Retrieve the default factory singleton
+        JfxFactory factory = JfxFactory.eINSTANCE;
+
+        Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+        Map<String, Object> m = reg.getExtensionToFactoryMap();
+        m.put("jfx", new XMIResourceFactoryImpl());
+
+        // Obtain a new resource set
+        ResourceSet resSet = new ResourceSetImpl();
+
+        // create a resource
+        Resource resource = resSet.createResource(uri);
+        // Get the first model element and cast it to the right type, in my
+        // example everything is hierarchical included in this first node
+        resource.getContents().add(model);
+
+        try {
+            resource.save(Collections.EMPTY_MAP);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
