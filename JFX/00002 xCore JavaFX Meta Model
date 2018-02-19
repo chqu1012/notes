@@ -1,12 +1,37 @@
-@GenModel(runtimePlatform="RCP", modelName="jfx", editDirectory="/de.dc.jfx.model.edit/src-gen", editorDirectory="/de.dc.jfx.model.editor/src-gen")
-package de.dc.jfx.model
+@Ecore(nsURI="http://www.example.org/jfx")
+@GenModel(
+	multipleEditorPages="false", 
+	creationIcons="false", 
+	editDirectory="/de.dc.javafx.model.edit/src-gen",
+	editorDirectory="/de.dc.javafx.model.editor/src-gen", 
+	richClientPlatform="true", 
+	codeFormatting="true",
+	importerID="org.eclipse.emf.importer.ecore", 
+	runtimePlatform="RCP")
+package de.dc.javafx.model.jfx
 
-abstract class JfxNamedElement{
-	String name=""
+
+class JfxProject extends JfxNamedElement {
+	contains JfxNode layout
+	contains Binding binding
+	String controller = ''
 }
 
-class JfxProject extends JfxNamedElement{
-	contains JfxNode[] root
+class Binding{
+	contains BindingModel[0..*] model
+}
+
+class BindingModel extends JfxNamedElement{
+	contains ControlMapping[0..*] mappings
+}
+
+class ControlMapping extends JfxNamedElement{
+	String datatype = ""
+	refers JfxNode[] control
+}
+ 
+abstract class JfxNamedElement{
+	String name=""
 }
 
 abstract class JfxNode extends JfxNamedElement{
@@ -24,6 +49,7 @@ abstract class JfxNode extends JfxNamedElement{
 	contains JfxLayoutData[0..1] layoutData
 }
 
+/** START LAYOUT DATA ***********************/
 abstract class JfxLayoutData{}
 
 class JfxAnchorData extends JfxLayoutData{
@@ -35,12 +61,16 @@ class JfxAnchorData extends JfxLayoutData{
 
 class JfxHboxData extends JfxLayoutData{
 	JfxPriority hGrow
+	contains JfxInsets margin
 }
 
 class JfxVboxData extends JfxLayoutData{
 	JfxPriority vGrow
+	contains JfxInsets margin
 }
+/** END LAYOUT DATA **************************/
 
+/** START LAYOUT  ****************************/
 abstract class JfxLayout extends JfxNode{
 	contains JfxNode[0..*] children
 }
@@ -57,7 +87,7 @@ enum JfxPriority{
 }
 
 class JfxGridPane extends JfxLayoutGapElement{
-	contains JfxInxets[0..1] padding
+	contains JfxInsets[0..1] padding
 }
 
 class JfxBorderPane extends JfxLayout{
@@ -71,7 +101,7 @@ class JfxBorderPane extends JfxLayout{
 class JfxAnchorPane extends JfxLayout{}
 
 class JfxTilePane extends JfxLayoutGapElement{
-	contains JfxInxets[0..1] padding
+	contains JfxInsets[0..1] padding
 	int prefColumns='1'
 }
 
@@ -80,12 +110,20 @@ abstract class JfxLayoutGapElement extends JfxLayout{
 	double hGap='0.0'	
 }
 
-class JfxInxets{
-	double left = '0.0'	
-	double right = '0.0'	
-	double top = '0.0'		
-	double bottom = '0.0'	
+class JfxInsets{
+	double left = '-1'	
+	double right = '-1'	
+	double top = '-1'		
+	double bottom = '-1'	
 }
+/** END LAYOUT  ****************************/
+
+/** START LISTENER ***************************/
+abstract class JfxOnActionListener{
+	String onAction=''
+}
+/** END LISTENER  ****************************/
+
 
 enum JfxColor{
 	CUSTOM, ALICEBLUE, ANTIQUEWHITE, AQUA, AQUAMARINE, AZURE, BEIGE, BISQUE, BLACK, BLANCHEDALMOND, BLUE, BLUEVIOLET, BROWN, BURLYWOOD, CADETBLUE, CHARTREUSE, CHOCOLATE, CORAL, CORNFLOWERBLUE, CORNSILK, CRIMSON, CYAN, DARKBLUE, DARKCYAN, DARKGOLDENROD, DARKGRAY, DARKGREEN, DARKGREY, DARKKHAKI, DARKMAGENTA, DARKOLIVEGREEN, DARKORANGE, DARKORCHID, DARKRED, DARKSALMON, DARKSEAGREEN, DARKSLATEBLUE, DARKSLATEGRAY, DARKSLATEGREY, DARKTURQUOISE, DARKVIOLET, DEEPPINK, DEEPSKYBLUE, DIMGRAY, DIMGREY, DODGERBLUE, FIREBRICK, FLORALWHITE, FORESTGREEN, FUCHSIA, GAINSBORO, GHOSTWHITE, GOLD, GOLDENROD, GRAY, GREEN, GREENYELLOW, GREY, HONEYDEW, HOTPINK, INDIANRED, INDIGO, IVORY, KHAKI, LAVENDER, LAVENDERBLUSH, LAWNGREEN, LEMONCHIFFON, LIGHTBLUE, LIGHTCORAL, LIGHTCYAN, LIGHTGOLDENRODYELLOW, LIGHTGRAY, LIGHTGREEN, LIGHTGREY, LIGHTPINK, LIGHTSALMON, LIGHTSEAGREEN, LIGHTSKYBLUE, LIGHTSLATEGRAY, LIGHTSLATEGREY, LIGHTSTEELBLUE, LIGHTYELLOW, LIME, LIMEGREEN, LINEN, MAGENTA, MAROON, MEDIUMAQUAMARINE, MEDIUMBLUE, MEDIUMORCHID, MEDIUMPURPLE, MEDIUMSEAGREEN, MEDIUMSLATEBLUE, MEDIUMSPRINGGREEN, MEDIUMTURQUOISE, MEDIUMVIOLETRED, MIDNIGHTBLUE, MINTCREAM, MISTYROSE, MOCCASIN, NAVAJOWHITE, NAVY, OLDLACE, OLIVE, OLIVEDRAB, ORANGE, ORANGERED, ORCHID, PALEGOLDENROD, PALEGREEN, PALETURQUOISE, PALEVIOLETRED, PAPAYAWHIP, PEACHPUFF, PERU, PINK, PLUM, POWDERBLUE, PURPLE, RED, ROSYBROWN, ROYALBLUE, SADDLEBROWN, SALMON, SANDYBROWN, SEAGREEN, SEASHELL, SIENNA, SILVER, SKYBLUE, SLATEBLUE, SLATEGRAY, SLATEGREY, SNOW, SPRINGGREEN, STEELBLUE, TAN, TEAL, THISTLE, TOMATO, TRANSPARENT, TURQUOISE, VIOLET, WHEAT, WHITE, WHITESMOKE, YELLOW, YELLOWGREEN 
@@ -109,7 +147,7 @@ abstract class JfxParentElement<T> extends JfxNode{
 	contains T[0..*] children
 }
 
-class JfxButton extends JfxTextElement, JfxSelectableEment{}
+class JfxButton extends JfxTextElement, JfxSelectableEment, JfxOnActionListener{}
 class JfxRadioButton extends JfxTextElement, JfxSelectableEment{}
 class JfxToggleButton extends JfxTextElement, JfxSelectableEment{}
 class JfxCheckbox extends JfxTextElement, JfxSelectableEment{}
@@ -120,7 +158,7 @@ class JfxTab extends JfxLayout{
 class JfxChoiceBox extends JfxParentElement<JfxChoiceItem>{}
 class JfxChoiceItem extends JfxNamedElement{}
 
-class JfxTextField extends JfxNode{
+class JfxTextField extends JfxNode, JfxOnActionListener{
 	String promptText = ''
 }
 class JfxPasswordField extends JfxNode{
