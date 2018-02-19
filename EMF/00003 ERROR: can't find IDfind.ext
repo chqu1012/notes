@@ -1,0 +1,9 @@
+Lösung: https://jaxenter.de/migration-auf-eclipse-4-einmal-angefangen-gibt-es-kein-zuruck-2132
+
+Allerdings ließen sich bei mir die Editoren nicht öffnen. Anstelle des gewünschten Editors habe ich eine Fehlermeldung erhalten, dass das Element IDfind.ext nicht gefunden werden konnte (Abb. 5). Dabei wurde eine Fehlermeldung geworfen, die aus dem Kompatibilitätsmodus stammt (Listing 6). Abhilfe kann hier geschaffen werden, indem im ApplicationActionBarAdvisor, der ja im 4.x-Modus mit dem Kompatibilitätsmodus weiterhin benutzt wird, beim Edit-Menü die Konstante IWorkbenchActionConstants.FIND_EXT hinzugefügt wird (Listing 7).
+
+protected void fillMenuBar(IMenuManager menuBar) {  
+  MenuManager editMenu = new MenuManager("&Edit",   IWorkbenchActionConstants.M_EDIT);  
+  menuBar.add(editMenu);  editMenu.add(new GroupMarker(IWorkbenchActionConstants.FIND_EXT));  
+  ...
+}
