@@ -1,0 +1,35 @@
+import javafx.application.Application;
+import javafx.beans.binding.BooleanBinding;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+
+public class BindingTest extends Application {
+
+    @Override
+    public void start(Stage primaryStage) {
+        HBox hbox = new HBox();
+
+        TextField t1 = new TextField();
+        TextField t2 = new TextField();
+
+        Button b1 = new Button("Bind");
+
+        BooleanBinding notEmpty = t1.textProperty().isEmpty().or(t2.textProperty().isEmpty());
+        b1.disableProperty().bind(notEmpty);
+
+        hbox.getChildren().add(b1);
+        hbox.getChildren().add(t1);
+        hbox.getChildren().add(t2);
+
+        Scene scene = new Scene(hbox, 400, 400);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
