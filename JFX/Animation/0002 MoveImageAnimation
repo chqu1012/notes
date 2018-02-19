@@ -1,0 +1,6 @@
+        Timeline timeline = new Timeline();        
+        timeline.setCycleCount(Timeline.INDEFINITE);        
+        timeline.setAutoReverse(true);        
+        KeyValue kv = new KeyValue(imgBus.xProperty(), 700);        
+        KeyFrame kf = new KeyFrame(Duration.seconds(10), kv);        
+        timeline.getKeyFrames().add(kf);        timeline.play();
