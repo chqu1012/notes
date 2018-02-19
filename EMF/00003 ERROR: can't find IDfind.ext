@@ -7,3 +7,10 @@ protected void fillMenuBar(IMenuManager menuBar) {  
   menuBar.add(editMenu);  editMenu.add(new GroupMarker(IWorkbenchActionConstants.FIND_EXT));  
   ...
 }
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+LÖSUNG:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Editor-Plugin:
+* {Model}EditorAdvisor.java
+* createEditMenu -> nach EDIT_START hinzufügen: menu.add(new GroupMarker(IWorkbenchActionConstants.FIND_EXT));
