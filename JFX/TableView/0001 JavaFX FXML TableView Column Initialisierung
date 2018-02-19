@@ -1,0 +1,27 @@
+<TableView fx:id="customerTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="500.0" minWidth="-Infinity" VBox.vgrow="ALWAYS">
+  <columns>
+    <TableColumn fx:id="nameColumn" prefWidth="109.0" text="Name">
+      <cellValueFactory>
+        <PropertyValueFactory property="name" />
+  </cellValueFactory>
+    </TableColumn>
+    <TableColumn fx:id="surnameColumn" prefWidth="150.0" text="Surname">
+      <cellValueFactory>
+        <PropertyValueFactory property="surname" />
+  </cellValueFactory>
+    </TableColumn>
+    <TableColumn fx:id="genderColumn" prefWidth="150.0" text="Gender">
+    </TableColumn>
+    <TableColumn fx:id="birthdayColumn" prefWidth="150.0" text="Birthday" />
+    <TableColumn fx:id="birthtimeColumn" prefWidth="150.0" text="Birthtime" />
+    <TableColumn fx:id="mobileColumn" prefWidth="150.0" text="Mobilephone">
+      <cellValueFactory>
+        <PropertyValueFactory property="mobilephone" />
+  </cellValueFactory>
+    </TableColumn>
+    <TableColumn fx:id="telephoneColumn" prefWidth="150.0" text="Telephone">
+      <cellValueFactory>
+        <PropertyValueFactory property="telephone" />
+  </cellValueFactory>
+ </TableColumn>
+ 
