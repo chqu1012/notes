@@ -1,0 +1,18 @@
+For RCP:
+org.eclipse.equinox.ds;bundle-version="1.4.400", 
+org.eclipse.equinox.event;bundle-version="1.3.200"
+
+For JDT
+ org.eclipse.jdt.ui,
+ org.eclipse.jdt.annotation,
+ org.eclipse.jdt.apt.core,
+ org.eclipse.jdt.apt.ui,
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.launching,
+ org.eclipse.jdt,
+ org.eclipse.jdt.apt.pluggable.core,
+ org.eclipse.jdt.core.manipulation,
+ org.eclipse.jdt.debug
+ 
+ For Themes:
+  org.eclipse.ui.themes
