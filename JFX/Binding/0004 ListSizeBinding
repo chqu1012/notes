@@ -1,0 +1,7 @@
+// Größe Binding
+arbeiterLabel.textProperty().bind(Bindings.size(masterData.filtered(u->u.getStatus()==0)).asString());
+
+// Durchschnitt
+DoubleBinding durchschnittZahlung = Bindings.createDoubleBinding(() -> 
+		masterData.stream().collect(Collectors.summingDouble(Arbeiter::getLohn)), masterData);
+durschnittLohnLabel.textProperty().bind(durchschnittZahlung.divide(Bindings.size(masterData)).asString());
