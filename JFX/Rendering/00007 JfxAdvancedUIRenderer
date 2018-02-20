@@ -17,10 +17,7 @@ public class JfxAdvancedUIRenderer extends JfxBasicUIRenderer{
 			parent.getTabs().add(tab);
 			regristrateNode(child, parent);
 		});
-		setSize(i, parent);
-		setStylePreferences(i, parent);
-		setLayoutData(i, parent);
-		regristrateNode(i, parent);
+		setControlConfiguration(i, parent);
 		return parent;
 	}
 	
@@ -34,6 +31,7 @@ public class JfxAdvancedUIRenderer extends JfxBasicUIRenderer{
 			jfxColumn.setText(column.getName());
 			parent.getColumns().add(jfxColumn);
 		});
+		setControlConfiguration(i, parent);
 		return parent;
 	}
 }
