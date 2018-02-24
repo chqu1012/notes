@@ -1,0 +1,10 @@
+http://www.pal-blog.de/entwicklung/mongodb/erste-schritte-mit-mongodb-fur-sql-umsteiger.html
+* open db: mongod.exe
+* start db session: mongo
+*show dbs
+*use <datenbankname>
+*show collections
+*db.getCollectionNames()
+*db.flugzeuge.insert({brand: "Airbus", model: "A380", passengers: 853, fuel: "Jet-A1", engine: ['GP7270','GP7270','GP7270','GP7270']})
+*db.flugzeuge.find()
+
