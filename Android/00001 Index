@@ -1,0 +1,83 @@
+SQLITE speicher auf sd:
+* http://stackoverflow.com/questions/14373863/how-to-store-sqlite-database-directly-on-sdcard
+
+Gallerie öffnen und Bild Verzeichnis laden
+* http://stackoverflow.com/questions/2169649/get-pick-an-image-from-androids-built-in-gallery-app-programmatically
+
+Gutes ListView & SQLite Tutorial
+* http://www.programmierenlernenhq.de/tabelle-in-sqlite-datenbank-erstellen-in-android/
+
+Android Databinding:
+* https://developer.android.com/topic/libraries/support-library/setup.html
+
+Bitmap scale:
+* http://stackoverflow.com/questions/16391626/scaling-bitmap-to-80-percent
+* Bitmap to file: http://stackoverflow.com/questions/22784656/convert-android-graphics-bitmap-to-java-io-file
+
+EditText Font Size, Bold, Italic:
+* android:textSize="5sp"
+* http://stackoverflow.com/questions/9239334/adjust-edittext-to-font-size
+* <Textview android:textStyle="bold|italic">
+* http://stackoverflow.com/questions/4623508/how-to-set-the-font-style-to-bold-italic-and-underlined-in-an-android-textview
+
+SearchView
+* https://www.beginnersheap.com/android-searchview-tutorial-android-search-bar-example/
+* menu.xml
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:yourapp="http://schemas.android.com/tools">
+ 
+    <!-- Search Widget -->
+    <item
+        app:showAsAction="always|collapseActionView"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/listsearch"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        android:title="Search"
+        android:iconifiedByDefault="true"
+        android:showAsAction="ifRoom|withText|always|collapseActionView"
+        android:actionViewClass="android.widget.SearchView"/>
+ 
+    </menu>
+*Searchable Configuration
+ <?xml version="1.0" encoding="utf-8"?>
+ <searchable xmlns:android="http://schemas.android.com/apk/res/android"
+    android:hint="search..."
+    android:label="@string/app_name"/>
+*add searchable to activity
+ <activity android:name=".MainActivity"
+			  android:theme="@style/Theme.AppCompat.Light"
+			  android:launchMode="singleTop">
+				
+			  ...
+
+			  <meta-data android:name="android.app.searchable"
+						 android:resource="@xml/searchable" />
+	</activity>
+* Inflate Action Bar
+  MenuInflater inflater = getMenuInflater();
+  inflater.inflate(R.menu.search, menu);
+  
+   SearchView searchView = (SearchView) menu.findItem(R.id.listsearch).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(false);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+ 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+ 
+                //filters list items from adapter
+                adapter.getFilter().filter(newText);
+ 
+                return false;
+            }
+        });
+
+* Card View Tutorial
+http://www.truiton.com/2015/03/android-cardview-example/
+*Ripple Effect CardView
+android:foreground="?android:attr/selectableItemBackground"
+https://guides.codepath.com/android/Using-the-CardView
