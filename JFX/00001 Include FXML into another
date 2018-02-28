@@ -1,0 +1,12 @@
+Link: http://blog.buildpath.de/fxml-composition-how-to-get-the-controller-of-an-included-fxml-view-nested-controllers/
+
+<fx:include fx:id="embeddedView" source="SomeOtherView.fxml"/>
+
+public class MainView {
+
+  @FXML
+	private Parent embeddedRedView;
+  
+  @FXML
+  private RedView embeddedRedViewController;
+}
