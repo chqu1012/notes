@@ -1,0 +1,26 @@
+<extension point="org.eclipse.ui.menus">
+  // CUSTOM POPUP ************************************************************
+  <menuContribution allPopups="false" locationURI="popup:de.dc.emf.model.editor.popup?before=additions">
+    <command commandId="de.dc.emf.model.editor.StartRDP" label="Start RDP" style="push">
+     <visibleWhen checkEnabled="true"/>
+    </command>
+  </menuContribution>
+  
+  // CUSTOM TOOLBAR MENU ***************************************************
+  <menuContribution locationURI="menu:org.eclipse.ui.main.menu">
+    <menu label="Window">
+      <command commandId="org.eclipse.ui.window.preferences" label="Preferences" style="push">
+    </menu>
+  </menuContribution>
+</extension>
+
+/***********************************************************************/
+ * POPUP
+/***********************************************************************/
+<extension point="org.eclipse.ui.popupMenus">
+  <objectContribution id="de.dc.emf.model.server.menu" objectClass="de.dc.emf.User">
+    <action  id="de.dc.emf.model.server.menu.StartRdp"
+      label="Start RDP" menubarPath="additions"    class="de.dc.emf.server.commands.StartRDPCommand"
+      enablesFor="1"/>
+  </objectContribution>
+</extension>
