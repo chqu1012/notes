@@ -1,0 +1,84 @@
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.ViewPart;
+
+/**
+ * Example by:
+ * https://sdqweb.ipd.kit.edu/wiki/JDT_Tutorial:_Creating_Eclipse_Java_Projects_Programmatically
+ * @author chaud
+ *
+ */
+public class HelloView extends ViewPart implements ISelectionListener{
+
+	@Override
+	public void createPartControl(Composite arg) {
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().addSelectionListener(this);
+	}
+
+	@Override
+	public void setFocus() {
+		
+	}
+
+	@Override
+	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+		if (selection instanceof IStructuredSelection) {
+			IStructuredSelection ss = (IStructuredSelection) selection;
+			Object firstSelection = ss.getFirstElement();
+			if (firstSelection instanceof IFile) {
+				// Get the current selected file in workspace
+				IFile file = (IFile) firstSelection;
+				if (file.getFileExtension().equals("model")) {
+					// TODO: Should be implemented
+				}
+				
+				// Get Eclipse Project
+				IProject project = file.getProject();
+				System.out.println("IProject: "+project.getName());
+				
+				IJavaProject targetProject = null;
+				try {
+					if (project.hasNature("org.eclipse.jdt.core.javanature")) {
+						 targetProject = JavaCore.create(project);
+					}
+				} catch (CoreException e) {
+					e.printStackTrace();
+				}
+				System.out.println("IJavaProject: "+targetProject.getElementName());
+				
+				
+				// Get Source Folder
+				IFolder sourceFolder = project.getFolder("src");
+
+				// Create Java package 
+				// de.dc.hello.world
+				String packageName = "de.dc.hello.world";
+				String source = "public class HelloWorld{}";
+				try {
+					IPackageFragment pack = targetProject.getPackageFragmentRoot(sourceFolder).createPackageFragment(packageName, false, null);
+					StringBuffer buffer = new StringBuffer();
+					buffer.append("package " + pack.getElementName() + ";\n");
+					buffer.append("\n");
+					buffer.append(source);
+
+					ICompilationUnit cu = pack.createCompilationUnit("HelloWorld.java", buffer.toString(), false, null);
+				} catch (JavaModelException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+}
