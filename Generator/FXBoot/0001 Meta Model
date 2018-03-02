@@ -1,0 +1,43 @@
+@GenModel(runtimePlatform="RCP", modelName="jfx", editDirectory="/de.dc.spring.fx.model.edit/src-gen", editorDirectory="/de.dc.spring.fx.model.editor/src-gen", multipleEditorPages="false")
+package de.dc.spring.fx.model
+
+class FXBootProject{
+	String packagePath
+	String name
+	String title = ''
+	int width = '1400'
+	int height = '800'
+	contains Screen[0..*] screens
+	contains Entity[0..*] entities
+}
+
+class Screen{
+	String name
+	ScreenType screenType
+}
+
+enum ScreenType{
+	Empty
+	Table
+}
+
+class Entity{
+	boolean hasRepository='true'
+	boolean hasService='true'
+	contains Field[0..*] fields
+}
+
+class Field{
+	String name
+	String datatype
+}
+
+enum ControlType{
+	None
+	Text
+	Combo
+	Check
+	Button
+	Radio
+	Label
+}
