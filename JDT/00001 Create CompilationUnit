@@ -18,8 +18,6 @@ import org.eclipse.ui.part.ViewPart;
 /**
  * Example by:
  * https://sdqweb.ipd.kit.edu/wiki/JDT_Tutorial:_Creating_Eclipse_Java_Projects_Programmatically
- * @author chaud
- *
  */
 public class HelloView extends ViewPart implements ISelectionListener{
 
@@ -74,7 +72,10 @@ public class HelloView extends ViewPart implements ISelectionListener{
 					buffer.append("\n");
 					buffer.append(source);
 
-					ICompilationUnit cu = pack.createCompilationUnit("HelloWorld.java", buffer.toString(), false, null);
+					ICompilationUnit compilationUnit = pack.getCompilationUnit("HelloWorld.java");
+					if (!compilationUnit.exists()) {
+						compilationUnit = pack.createCompilationUnit("HelloWorld.java", buffer.toString(), false, null);
+					}
 				} catch (JavaModelException e) {
 					e.printStackTrace();
 				}
