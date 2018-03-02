@@ -2,7 +2,9 @@
   // CUSTOM POPUP ************************************************************
   <menuContribution allPopups="false" locationURI="popup:de.dc.emf.model.editor.popup?before=additions">
     <command commandId="de.dc.emf.model.editor.StartRDP" label="Start RDP" style="push">
-     <visibleWhen checkEnabled="true"/>
+     <visibleWhen checkEnabled="true">
+      <instanceof value="de.dc.emf.server.Server"/>
+      </visibleWhen>
     </command>
   </menuContribution>
   
