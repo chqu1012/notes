@@ -1,0 +1,6 @@
+	<extension
+         point="org.eclipse.ui.views">
+         <view id="de.dc.spring.fx.model.view.HelloView"
+             name="Hello World View"
+          class="de.dc.spring.fx.model.view.HelloView"/>
+   </extension>
