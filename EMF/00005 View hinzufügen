@@ -1,6 +1,34 @@
-	<extension
-         point="org.eclipse.ui.views">
-         <view id="de.dc.spring.fx.model.view.HelloView"
-             name="Hello World View"
-          class="de.dc.spring.fx.model.view.HelloView"/>
-   </extension>
+<extension point="org.eclipse.ui.views">
+	<view id="de.dc.spring.fx.model.view.HelloView" name="Hello World View" class="de.dc.spring.fx.model.view.HelloView"/>
+</extension>
+
+
+
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.ViewPart;
+
+public class HelloWorld extends ViewPart implements ISelectionListener{
+
+	@Override
+	public void createPartControl(Composite arg) {
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().addSelectionListener(this);
+	}
+
+	@Override
+	public void setFocus() {
+		
+	}
+
+	@Override
+	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+		if (selection instanceof IStructuredSelection) {
+			IStructuredSelection ss = (IStructuredSelection) selection;
+			Object firstSelection = ss.getFirstElement();
+		}
+	}
+}
