@@ -1,0 +1,10 @@
+public interface UserRepository extends JpaRepository<User, Long> {
+
+	/**
+	 * Projekt - Objekt 
+	 * Address - Objekt
+	 * -> ZipCode kann Feld sein
+	 * -> Zip ist ein Objekt und greift auf Code Feld
+	 */
+	List<User> findByProjectAddressZipCode();
+}
