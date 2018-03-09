@@ -1,0 +1,14 @@
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import de.oio.fsboot.user.domain.User;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+
+	default List<User> findByFirstname(String firstname){
+		return findByFirstnameAndProjectActive(firstname, true);
+	}
+	
+	List<User> findByFirstnameAndProjectActive(String firstname, boolean isActive);
+}
