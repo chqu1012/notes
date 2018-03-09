@@ -1,0 +1,24 @@
+@Entity
+@Table(name="accounts")
+public class Account implements Serializable {
+
+	@Embeddable
+	public static class AccountKey implements Serializable {
+
+		private static final long serialVersionUID = -6217521223817017414L;
+
+		@Column(nullable = false)
+		public int accountNumber;
+		
+		@Column(nullable = false)
+		public int bankCode;
+	}
+	
+	private static final long serialVersionUID = -3518530288192746295L;
+	
+	@EmbeddedId
+	private AccountKey accountKey = new AccountKey();
+	
+	@Column
+	private double amount; 
+}
