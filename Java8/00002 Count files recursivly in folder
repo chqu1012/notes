@@ -1,0 +1,23 @@
+Link: https://stackoverflow.com/questions/12616124/get-number-of-files-in-a-directory-and-its-subdirectories
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class Test {
+
+  public long fileCount(Path dir) { 
+    return Files.walk(dir)
+                .parallel()
+                .filter(p -> !p.toFile().isDirectory())
+                .count();
+  }
+
+  public void main(String... args) {
+    Path dir = Paths.get(args[0]);
+    long count = fileCount(dir);
+
+    System.out.println(args[0] + " has " + count + " files");
+  }
+
+}
