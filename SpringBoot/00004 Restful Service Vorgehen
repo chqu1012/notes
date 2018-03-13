@@ -1,0 +1,10 @@
+Link: http://www.springboottutorial.com/spring-boot-crud-rest-service-with-jpa-hibernate
+
+1. Entity definieren (z.B. Person)
+2. Repository definieren (z.B. PersonRepository)
+3. Controller definieren (z.B. PersonResource mit @RestController)
+    - @Autowired PersonRepository
+    - @GetMapping("/students") getAll(), 
+    - @GetMapping("/students/{id}") findById(@PathVariable long id)
+    - @DeleteMapping("/students/{id}") deleteById(@PathVariable long id)
+    - @PostMapping("/students") ResponseEntity<Object> create(Student student)
