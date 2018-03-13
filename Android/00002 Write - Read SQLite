@@ -1,0 +1,24 @@
+Link: https://www.androidhive.info/2011/11/android-sqlite-database-tutorial/
+
+# Create DataBaseHandler extends SQLiteOpenHelper 
+  - Override onCreate() // DB is need to be created 
+  - Override onUpgrade() // When db is modify like structure change 
+  - Running SQL db.execSQL(SQL) 
+  - Insert with Params  
+    SQLiteDatabase db = this.getWriteableDatabase();  
+    ContentValues values = new ContentValues();  
+    values.put(KEY_ATTRIBUTE, contact.getName());  
+    db.insert(TABLE_CONTACTS, null, values);   
+    db.close(); 
+  - Reading Row(s)  
+    SQLiteDatabase db = this.getReadableDatabase(); 
+    Cursor cursor = db.query(TABLE_CONTACTS, new String[]{KEY_ID, KEY_NAME}, KEY_ID+"=?", new String[]{String.valueOf(id)}, null, null, null, null);  
+    String name = cursor.getString(0);  
+    String id = cursor.getInt(1); 
+  - Reading Raw Query  
+    SQLiteDatabase db = this.getWritableDatabase();  
+    Cursor cursor = db.rawQuery(selectQuery, null);  
+    cursor.getString(0), cursor.getString(1), etc. 
+  - Delete  
+    SQLiteDatabase db = this.getReadableDatabase();  
+    db.delete(TABLE_CONTACTS, KEY_ID + " = ?", new String[] { String.valueOf(contact.getID()) });
