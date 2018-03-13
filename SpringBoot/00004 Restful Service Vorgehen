@@ -1,5 +1,11 @@
 Link: http://www.springboottutorial.com/spring-boot-crud-rest-service-with-jpa-hibernate
 
+0. Gradle Dependencies:
+    - spring-boot-starter-data-jpa
+    - spring-boot-starter-actuator
+    - spring-boot-starter-web
+    - spring-boot-devtools, scope: runtime
+    - h2, scope: runtime
 1. Entity definieren (z.B. Person)
 2. Repository definieren (z.B. PersonRepository)
 3. Controller definieren (z.B. PersonResource mit @RestController)
@@ -23,3 +29,4 @@ Link: http://www.springboottutorial.com/spring-boot-crud-rest-service-with-jpa-h
         studentRepository.save(student);
         return ResponseEntity.noContent().build();
       }
+4. Exception Handling: StudentNotFoundException extends RuntimeException  
