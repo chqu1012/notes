@@ -7,4 +7,19 @@ Link: http://www.springboottutorial.com/spring-boot-crud-rest-service-with-jpa-h
     - @GetMapping("/students") getAll(), 
     - @GetMapping("/students/{id}") findById(@PathVariable long id)
     - @DeleteMapping("/students/{id}") deleteById(@PathVariable long id)
-    - @PostMapping("/students") ResponseEntity<Object> create(Student student)
+    - @PostMapping("/students") 
+      ResponseEntity<Object> create(@RequestBody Student student){
+        Student savedStudent = studentRepository.save(student);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedStudent.getId()).toUri();
+        return ResponseEntity.created(location).build();
+      }
+    - @PutMapping("/students/{id}") 
+      ResponseEntity<Object> update(@RequestBody Student student, @PathVariable long id){
+        Optional<Student> studentOptional = studentRepository.findById(id);
+        if (!studentOptional.isPresent())
+           return ResponseEntity.notFound().build();
+           
+        student.setId(id);
+        studentRepository.save(student);
+        return ResponseEntity.noContent().build();
+      }
