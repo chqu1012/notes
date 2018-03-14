@@ -1,0 +1,6 @@
+Tutorial: http://www.baeldung.com/entity-to-and-from-dto-for-a-java-spring-application
+
+Erklärung: 
+  - Entity ist die Klasse die zu der Tabelle gemappt wird -> Store Entity
+  - DTO (Data Transfer Object) ist die Klasse die an der View gemappt wird -> Show Entity
+  -> Link: https://stackoverflow.com/questions/39397147/java-difference-between-entity-and-dto
