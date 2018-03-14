@@ -1,0 +1,8 @@
+- Dependency: compile("org.springframework.boot:spring-boot-starter-security")
+- @EnableWebSecurity
+- SpringBootApplication extends WebSecurityConfigurerAdapter
+- @Autowired void configureGlobal(AuthenticationManagerBuilder ab) thows Exception{
+    ab.inMemoryAuthentification().withUser("Max").password("Musterpassword").roles("USER");
+    ab.inMemoryAuthentification().withUser("Max").password("Musterpassword").roles("ADMIN");
+  }
+- Bei den Service Klassen gewollte Methode mit @RolesAllowed("ADMIN", "USER")
