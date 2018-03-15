@@ -1,0 +1,6 @@
+Link: https://stackoverflow.com/questions/41369023/how-to-send-jms-message-from-one-spring-boot-application-to-another-when-both-ap
+Pratical Example: http://javasampleapproach.com/spring-framework/spring-jms/spring-jms-activemq-implement-runtime-springboot-activemq-jmsresponse-application
+
+Wenn die 2 Spring Boot Application auf einer VM läuft, dann kann man in einer der zwei application.properties:
+* spring.activemq.broker-url=vm://localhost
+* spring.activemq.broker-url=tcp://localhost:61616   --> Producer
