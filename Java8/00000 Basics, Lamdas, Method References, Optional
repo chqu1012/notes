@@ -1,0 +1,16 @@
+Link: http://javasampleapproach.com/java-tutorial/java-8#Functional_Interfaces
+
+* Apply Functional Methods: Übergabe von Methodeninhalt als Parameter
+* Methodenreferenz:
+  s -> System.out.println(s)
+  System.out::println
+* Optional Class
+  String text = "";
+  Optional<String> opText = Optional.isNullable(text);
+  opText.ifPresent(System.out::println)
+* Reading File:
+  try (Stream<String> stream = Files.lines(Paths.get(filePath))) {			
+    stream.forEach(System.out::println);
+	} catch (IOException e) {}
+* Lamda Expressions
+  Runnable r = () -> System.out.println("Hello world!");
