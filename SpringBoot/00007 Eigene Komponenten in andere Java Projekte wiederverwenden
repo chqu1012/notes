@@ -1,0 +1,3 @@
+Damit andere Komponenten wie Entities und Repositories in das Haupt Spring Boot Application wiederverwendet werden kann, müssen weitere Annotationen gemacht werden:
+@ EntityScan(PACKAGE_PATH_VOM_ANDEREN_PROJEKT)
+@ @EnableJpaRepositories(PACKAGE_PATH_VOM_ANDEREN_PROJEKT)
