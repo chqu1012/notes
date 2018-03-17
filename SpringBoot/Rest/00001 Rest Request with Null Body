@@ -1,20 +1,22 @@
 Wenn Body null ist, dann muss man serverseitig schauen was der Response zurückliefert. In dem Fall muss beim zurückgeben, der Body gesetzt werden
 
-	def create(Ticket ticket){
-		var headers = new HttpHeaders
-		headers.add("Accept", MediaType::APPLICATION_JSON_VALUE)
-      	headers.setContentType(MediaType.APPLICATION_JSON)
-		
-        val requestBody = new HttpEntity(ticket, headers)
-       	val result = restTemplate.postForEntity(REQUEST, requestBody, Ticket)
-       	result.body
-	}
-  
-  @PostMapping("/tickets") 
-	override create(@RequestBody Ticket ticket) {
-		var saveTicket = ticketRepository.save(ticket)
-		var location = ServletUriComponentsBuilder.fromCurrentRequest.path("/{id}").buildAndExpand(
-			saveTicket.id).toUri
-		return ResponseEntity.created(location).body(saveTicket)
-	}
+# Clientseitig
+def create(Ticket ticket){
+	var headers = new HttpHeaders
+	headers.add("Accept", MediaType::APPLICATION_JSON_VALUE)
+	headers.setContentType(MediaType.APPLICATION_JSON)
+
+	val requestBody = new HttpEntity(ticket, headers)
+	val result = restTemplate.postForEntity(REQUEST, requestBody, Ticket)
+	result.body
+}
+
+#Serverseitig
+@PostMapping("/tickets") 
+override create(@RequestBody Ticket ticket) {
+	var saveTicket = ticketRepository.save(ticket)
+	var location = ServletUriComponentsBuilder.fromCurrentRequest.path("/{id}").buildAndExpand(
+		saveTicket.id).toUri
+	return ResponseEntity.created(location).body(saveTicket)
+}
   
