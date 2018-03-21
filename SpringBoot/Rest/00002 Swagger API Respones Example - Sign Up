@@ -1,0 +1,18 @@
+Link: https://github.com/sansajn5/ISA-InstaTicketAPI/blob/master/src/main/java/com/isa/instaticketapi/web/rest/AccountResource.java
+
+@ApiOperation(value = "Registration new user", response = HttpStatus.class)
+@ApiResponses(value = { @ApiResponse(code = 201, message = "Succesfully created user"),			
+  @ApiResponse(code = 400, message = "Some attribute is already in use"),			
+  @ApiResponse(code = 401, message = "You are not authorized to view the resource"),			
+  @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),			
+  @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),			
+  @ApiResponse(code = 500, message = "Error on server side"),			
+  @ApiResponse(code = 503, message = "Server is unavilable or under maintance") 
+})
+@PostMapping("/sign-up")	
+@ResponseStatus(HttpStatus.CREATED)
+public void signupAccount(@Valid @RequestBody UserDTO userDTO) {
+  userRepository.findOneByUsername(userDTO.getUsername()).ifPresent(user -> {			
+  throw new IllegalArgumentException("Username is already used");		
+  });
+}
