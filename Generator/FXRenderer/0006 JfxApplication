@@ -1,0 +1,65 @@
+public abstract class JfxApplication extends Application {
+	
+	protected JfxAdvancedUIRenderer renderer = new JfxAdvancedUIRenderer();
+	
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle(getTitle());
+        StackPane root = new StackPane();
+		String modelPath = getJfxName();
+		if (modelPath!=null) {
+			JfxProject model = getModel(modelPath);
+			Node node = renderer.doSwitch(model);
+			initController(model);
+			root.getChildren().add(node);
+		}
+        Node node = createContent();
+        if (node!=null) {
+        	root.getChildren().add(node);
+		}
+        initialize();
+        Scene scene = new Scene(root, getWidth(), getHeight());
+		primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+	private void initController(JfxProject model) {
+		renderer.setControllerClass(model.getController());
+	}
+
+	protected JfxProject getModel(String jfxName) {
+		String path = getClass().getResource(jfxName+".model").getPath();
+    	JfxProjectFile file = new JfxProjectFile();
+    	return file.load(path);
+    }
+    
+	private double getHeight() {
+		return 800;
+	}
+
+	private double getWidth() {
+		return 1200;
+	}
+
+	@SuppressWarnings("unchecked")
+	protected <T> T getNodeByName(String name) {
+		return (T) renderer.getNodeByName(name);
+	}
+	
+	protected String getJfxName() {
+		return getClass().getSimpleName();
+	}
+
+	protected abstract String getTitle();
+
+	protected void initialize() {
+	}
+
+	protected Node createContent() {
+		return null;
+	}
+}
