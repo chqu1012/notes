@@ -1,0 +1,28 @@
+public class JfxAdvancedUIRenderer extends JfxBasicUIRenderer{
+ 
+ @Override 
+ public Node caseJfxTabPane(JfxTabPane i) {  
+    TabPane parent = new TabPane();  
+    i.getChildren().forEach(child ->{    
+        Tab tab = new Tab(child.getName());   
+        child.getChildren().forEach(node -> tab.setContent(doSwitch(node)));   
+        parent.getTabs().add(tab);  
+    });  
+    setControlConfiguration(i, parent);  
+    return parent; 
+ }  
+ 
+ @Override 
+ public Node caseJfxTableView(JfxTableView i) {  
+   TableView parent = new TableView();  
+   parent.setEditable(i.isEditable());  
+   i.getChildren().forEach(column->{   
+       TableColumn jfxColumn = new TableColumn<>();   
+       jfxColumn.setPrefWidth(column.getWidth());   
+       jfxColumn.setText(column.getName());   
+       parent.getColumns().add(jfxColumn);  
+   });  
+   setControlConfiguration(i, parent);  
+   return parent; 
+ }
+}
