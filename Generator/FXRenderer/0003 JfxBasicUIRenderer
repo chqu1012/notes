@@ -1,0 +1,31 @@
+public class JfxBasicUIRenderer extends JfxLayoutRenderer{
+
+	@Override
+	public Node caseJfxButton(JfxButton i) {
+		Button parent = new Button();
+		parent.setText(i.getText());
+		if (!i.getOnAction().isEmpty()) {
+			parent.setOnAction(event -> invokeControllerMethod(i.getOnAction(), event, ActionEvent.class));
+		}
+		setControlConfiguration(i, parent);
+		return parent;
+	}
+
+	@Override
+	public Node caseJfxLabel(JfxLabel i) {
+		Label parent = new Label(i.getText());
+		parent.setWrapText(i.isWrapText());
+		setControlConfiguration(i, parent);
+		return parent;
+	}
+	
+	@Override
+	public Node caseJfxTextField(JfxTextField  i) {
+		TextField parent = new TextField();
+		setControlConfiguration(i, parent);
+		if (!i.getOnAction().isEmpty()) {
+			parent.setOnAction(event -> invokeControllerMethod(i.getOnAction(), event, ActionEvent.class));
+		}
+		return parent;
+	}
+}
