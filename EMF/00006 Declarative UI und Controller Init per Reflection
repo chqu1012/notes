@@ -1,0 +1,116 @@
+API:
+
+********************************************************************************
+Model sollte generiert sein, diese Klasse initialisiert, den von der benutzen 
+Java Projekt gesetzen Controller
+
+JfxControllerRenderer:
+********************************************************************************
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+
+import de.dc.jfx.model.util.ModelSwitch;
+import javafx.scene.Node;
+
+public class JfxControllerRenderer extends ModelSwitch<Node> {
+
+	protected Map<String, Node> nodeRegistry = new HashMap<String, Node>();
+
+	protected Class<?> controllerClass;
+	protected Object controllerInstance;
+
+	public void invokeControllerMethod(String methodName) {
+		Method method;
+		try {
+			method = controllerClass.getDeclaredMethod(methodName);
+			method.invoke(controllerInstance);
+		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public <T> void invokeControllerMethod(String methodName, Object arguements, Class<?>... clazz) {
+		Method method;
+		try {
+			method = controllerClass.getDeclaredMethod(methodName, clazz);
+			method.invoke(controllerInstance, arguements);
+		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void setControllerClass(String clazz) {
+		if (!clazz.isEmpty()) {
+			try {
+				this.controllerClass = Class.forName(clazz);
+				this.controllerInstance = controllerClass.newInstance();
+				
+				Field[] fields = controllerClass.getFields();
+				for (Field field : fields) {
+					Node node = nodeRegistry.get(field.getName());
+					if (node != null) {
+						field.set(controllerInstance, node);
+					}
+				}
+			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void setControllerClass(Class<?> clazz) {
+		this.controllerClass = clazz;
+	}
+
+	public Node getNodeByName(String name) {
+		return nodeRegistry.get(name);
+	}
+
+	protected void regristrateNode(de.dc.jfx.model.JfxNode jfxNode, Node parent) {
+		String name = jfxNode.getName();
+		if (!nodeRegistry.containsKey(name)) {
+			nodeRegistry.put(name, parent);
+		} else {
+			System.out.println("No registration for " + name);
+		}
+	}
+}
+
+
+********************************************************************************
+Neues Hello World Projekt mit dem HelloWorld.model
+********************************************************************************
+<?xml version="1.0" encoding="UTF-8"?>
+<model:JfxProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="de.dc.jfx.model" name="Hello World Application" controller="helloworld.controller.HelloWorldController">
+  <layout xsi:type="model:JfxHbox" spacing="10.0">
+    <children xsi:type="model:JfxButton" text="Hello" onAction="onHelloButton">
+      <layoutData xsi:type="model:JfxHboxData">
+        <margin left="5.0" right="5.0" top="5.0" bottom="5.0"/>
+      </layoutData>
+    </children>
+    <children xsi:type="model:JfxButton" text="World" onAction="onHelloWorld"/>
+  </layout>
+</model:JfxProject>
+
+********************************************************************************
+Controller helloworld.controller.HelloWorldController
+********************************************************************************
+package helloworld.controller;
+
+import javafx.event.ActionEvent;
+
+public class HelloWorldController {
+
+	public void onHelloButton(ActionEvent e){
+		System.out.println("Hello");
+	}
+	
+	public void onHelloWorld(ActionEvent e){
+		System.out.println("World");
+	}
+}
