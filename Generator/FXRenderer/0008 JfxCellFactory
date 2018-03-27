@@ -1,0 +1,28 @@
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.util.Callback;
+
+public abstract class JfxCellFactory<S,T, C> implements Callback<TableColumn<S, T>, TableCell<S, T>> {
+
+	@Override
+	public TableCell<S, T> call(TableColumn<S, T> p) {
+		TableCell<S, T> cell = new TableCell<S, T>() {
+			@Override
+			protected void updateItem(Object item, boolean empty) {
+				C p = null;
+				if (getTableRow() != null) {
+					p = (C) getTableRow().getItem();
+				}
+				super.updateItem((T) item, empty);
+				if (p != null) {
+					setText(getContentText(p));
+				} else {
+					setText("");
+				}
+			}
+		};
+		return cell;
+	}
+	
+	protected abstract String getContentText(C p);
+}
