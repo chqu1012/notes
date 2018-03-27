@@ -1,5 +1,7 @@
 public class JfxAdvancedUIRenderer extends JfxBasicUIRenderer{
  
+ private Map<String, ObservableList<?>> masterDataList = new HashMap<>();
+ 
  @Override 
  public Node caseJfxTabPane(JfxTabPane i) {  
     TabPane parent = new TabPane();  
@@ -15,7 +17,12 @@ public class JfxAdvancedUIRenderer extends JfxBasicUIRenderer{
  @Override 
  public Node caseJfxTableView(JfxTableView i) {  
    TableView parent = new TableView();  
-   parent.setEditable(i.isEditable());  
+   parent.setEditable(i.isEditable()); 
+   
+  ObservableList masterData = FXCollections.observableArrayList();
+  masterDataList.put(i.getName()+"MasterData", masterData);
+  parent.setItems(masterData);
+   
    i.getChildren().forEach(column->{   
        TableColumn jfxColumn = new TableColumn<>();   
        jfxColumn.setPrefWidth(column.getWidth());   
@@ -34,5 +41,9 @@ public class JfxAdvancedUIRenderer extends JfxBasicUIRenderer{
    });  
    setControlConfiguration(i, parent);  
    return parent; 
+ }
+ 
+ 	public ObservableList<?> getMasterDataByTableName(String tableName){
+   return masterDataList.get(tableName+"MasterData");
  }
 }
