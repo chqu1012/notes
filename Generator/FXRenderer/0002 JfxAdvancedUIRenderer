@@ -20,6 +20,16 @@ public class JfxAdvancedUIRenderer extends JfxBasicUIRenderer{
        TableColumn jfxColumn = new TableColumn<>();   
        jfxColumn.setPrefWidth(column.getWidth());   
        jfxColumn.setText(column.getName());   
+       			regristrateNode(column, jfxColumn);		
+    if (column.getPropertyValueFactoryClass().length()>0) {
+     try {
+      Class<? extends Callback> clazz = (Class<? extends Callback>) Class.forName(column.getPropertyValueFactoryClass());
+      Callback newInstance = clazz.newInstance();
+      jfxColumn.setCellFactory(newInstance);
+     } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+      e.printStackTrace();
+     }
+    }       
        parent.getColumns().add(jfxColumn);  
    });  
    setControlConfiguration(i, parent);  
