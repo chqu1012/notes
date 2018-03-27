@@ -1,0 +1,65 @@
+public class JfxControllerRenderer extends ModelSwitch<Node> {
+
+	protected Map<String, Node> nodeRegistry = new HashMap<String, Node>();
+
+	protected Class<?> controllerClass;
+	protected Object controllerInstance;
+
+	public void invokeControllerMethod(String methodName) {
+		Method method;
+		try {
+			method = controllerClass.getDeclaredMethod(methodName);
+			method.invoke(controllerInstance);
+		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public <T> void invokeControllerMethod(String methodName, Object arguements, Class<?>... clazz) {
+		Method method;
+		try {
+			method = controllerClass.getDeclaredMethod(methodName, clazz);
+			method.invoke(controllerInstance, arguements);
+		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void setControllerClass(String clazz) {
+		if (!clazz.isEmpty()) {
+			try {
+				this.controllerClass = Class.forName(clazz);
+				this.controllerInstance = controllerClass.newInstance();
+				
+				Field[] fields = controllerClass.getFields();
+				for (Field field : fields) {
+					Node node = nodeRegistry.get(field.getName());
+					if (node != null) {
+						field.set(controllerInstance, node);
+					}
+				}
+			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void setControllerClass(Class<?> clazz) {
+		this.controllerClass = clazz;
+	}
+
+	public Node getNodeByName(String name) {
+		return nodeRegistry.get(name);
+	}
+
+	protected void regristrateNode(de.dc.jfx.model.JfxNode jfxNode, Node parent) {
+		String name = jfxNode.getName();
+		if (!nodeRegistry.containsKey(name)) {
+			nodeRegistry.put(name, parent);
+		} else {
+			System.out.println("No registration for " + name);
+		}
+	}
+}
