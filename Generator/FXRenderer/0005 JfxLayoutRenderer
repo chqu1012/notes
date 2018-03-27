@@ -1,0 +1,112 @@
+public class JfxLayoutRenderer extends JfxControllerRenderer {
+
+	@Override
+	public Node caseJfxProject(JfxProject i) {
+		JfxNode layout = i.getLayout();
+		return doSwitch(layout);
+	}
+	
+	@Override
+	public Node caseJfxVbox(JfxVbox i) {
+		VBox parent = new VBox();
+		parent.setSpacing(i.getSpacing());
+		setLayoutConfiguration(i, parent);
+		return parent;
+	}
+
+	@Override
+	public Node caseJfxHbox(JfxHbox i) {
+		HBox parent = new HBox();
+		parent.setSpacing(i.getSpacing());
+		setLayoutConfiguration(i, parent);
+		return parent;
+	}
+
+	@Override
+	public Node caseJfxGridPane(JfxGridPane i) {
+		GridPane parent = new GridPane();
+		parent.setHgap(i.getHGap());
+		parent.setVgap(i.getVGap());
+		setLayoutConfiguration(i, parent);
+		return parent;
+	}
+
+	@Override
+	public Node caseJfxAnchorPane(JfxAnchorPane i) {
+		AnchorPane parent = new AnchorPane();
+		setLayoutConfiguration(i, parent);
+		return parent;
+	}
+	
+	protected void setStylePreferences(JfxNode i, Region parent) {
+		parent.setStyle(i.getStyle());
+	}
+
+	protected void setSize(JfxNode node, Region jfxNode){
+		if (node.getHeight()>0)
+			jfxNode.setPrefHeight(node.getHeight());
+		if (node.getWidth()>0)
+			jfxNode.setPrefWidth(node.getWidth());
+	}
+
+	protected void setLayoutData(JfxNode node, Node jfxNode) {
+		JfxLayoutData layoutData = node.getLayoutData();
+		if (layoutData instanceof JfxAnchorData) 
+			setJfxAnchorData(jfxNode, layoutData);
+		else if (layoutData instanceof JfxHboxData) 
+			setJfxHboxData(jfxNode, layoutData);
+		else if (layoutData instanceof JfxVboxData) 
+			setJfxVboxData(jfxNode, layoutData);
+		
+	}
+
+	private void setJfxVboxData(Node jfxNode, JfxLayoutData layoutData) {
+		JfxVboxData data = (JfxVboxData) layoutData;
+		VBox.setVgrow(jfxNode, Priority.valueOf(data.getVGrow().getName()));	
+		JfxInsets margin = data.getMargin();
+		if (margin!=null) {
+			VBox.setMargin(jfxNode, new Insets(margin.getTop(), margin.getRight(), margin.getBottom(), margin.getLeft()));
+		}
+	}
+
+	private void setJfxHboxData(Node jfxNode, JfxLayoutData layoutData) {
+		JfxHboxData data = (JfxHboxData) layoutData;
+		HBox.setHgrow(jfxNode, Priority.valueOf(data.getHGrow().getName()));
+		JfxInsets margin = data.getMargin();
+		if (margin!=null) {
+			HBox.setMargin(jfxNode, new Insets(margin.getTop(), margin.getRight(), margin.getBottom(), margin.getLeft()));
+		}
+
+	}
+
+	private void setJfxAnchorData(Node jfxNode, JfxLayoutData layoutData) {
+		JfxAnchorData data = (JfxAnchorData) layoutData;
+		if (data != null) {
+			if (data.getLeft() > -1) 
+				AnchorPane.setLeftAnchor(jfxNode, data.getLeft());
+			if (data.getRight() > -1) 
+				AnchorPane.setRightAnchor(jfxNode, data.getRight());
+			if (data.getTop() > -1) 
+				AnchorPane.setTopAnchor(jfxNode, data.getTop());
+			if (data.getBottom() > -1) 
+				AnchorPane.setBottomAnchor(jfxNode, data.getBottom());
+		}
+	}
+
+	protected void setBoxPreferences(JfxLayout i, Pane parent) {
+		setSize(i, parent);
+		i.getChildren().forEach(node -> parent.getChildren().add(doSwitch(node)));
+	}
+	
+	protected void setLayoutConfiguration(JfxLayout node, Pane parent) {
+		setControlConfiguration(node, parent);
+		node.getChildren().forEach(n -> parent.getChildren().add(doSwitch(n)));
+	}
+	
+	protected void setControlConfiguration(JfxNode node, Region parent) {
+		setSize(node, parent);
+		setStylePreferences(node, parent);
+		setLayoutData(node, parent);
+		regristrateNode(node, parent);
+	}
+}
