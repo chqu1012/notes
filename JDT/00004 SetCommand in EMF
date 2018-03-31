@@ -1,0 +1,13 @@
+Link: https://github.com/eclipse/emf/blob/master/examples/org.eclipse.emf.examples.databinding.project.ui.rcp/src/org/eclipse/emf/example/databinding/project/ui/rcp/dialogs/PersonDialog.java
+
+    Object[] classes = dialog.getResult();
+			for (Object o : classes) {
+				if (o instanceof SourceType) {
+					SourceType cu = (SourceType) o;
+					ExtJfxEditor activeEditor = (ExtJfxEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+					SetCommand setCommand = new SetCommand(activeEditor.getEditingDomain(), object, JfxPackage.Literals.JFX_TABLE_COLUMN__PROPERTY_VALUE_FACTORY_CLASS, cu.getFullyQualifiedName());
+					if (setCommand.canExecute()) {
+						activeEditor.getEditingDomain().getCommandStack().execute(setCommand);
+					}
+				}
+			}
