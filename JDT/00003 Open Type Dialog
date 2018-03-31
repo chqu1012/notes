@@ -1,0 +1,7 @@
+Link: https://stackoverflow.com/questions/1218801/how-to-open-the-find-type-dialog-programmatically-in-eclipse?rq=1
+
+SelectionDialog dialog = new OpenTypeSelectionDialog(JavaPlugin.getActiveWorkbenchShell(), true, PlatformUI.getWorkbench().getProgressService(), null, IJavaSearchConstants.TYPE);
+dialog.setTitle(JavaUIMessages.OpenTypeAction_dialogTitle);
+dialog.setMessage(JavaUIMessages.OpenTypeAction_dialogMessage);
+
+int result = dialog.open();
