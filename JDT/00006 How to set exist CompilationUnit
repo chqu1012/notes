@@ -1,0 +1,23 @@
+Link: https://www.programcreek.com/2012/06/insert-blank-lines-to-source-code-by-using-eclipse-jdt/
+
+String appContent = appTemplate.gen(project);
+
+IFileEditorInput input = (IFileEditorInput) activeEditor.getEditorInput();
+IFile file = input.getFile();
+IProject activeProject = file.getProject();
+IFolder srcFolder = activeProject.getFolder("src");
+
+IJavaProject javaProject = JavaCore.create(activeProject);
+IPackageFragmentRoot srcJdtFolder = javaProject.getPackageFragmentRoot(srcFolder);
+try {
+  IPackageFragment fragment = srcJdtFolder.createPackageFragment(project.getPackagePath(), true, null);
+  String applicationCU = project.getName().replaceAll(" ", "")+"Application.java";
+  ICompilationUnit compilationUnit = fragment.getCompilationUnit(applicationCU);
+  if (compilationUnit.exists()) {
+    compilationUnit.getBuffer().setContents(appContent);
+  }else {
+    fragment.createCompilationUnit(applicationCU, appContent, false, null);
+  }
+} catch (JavaModelException e) {
+  e.printStackTrace();
+}
