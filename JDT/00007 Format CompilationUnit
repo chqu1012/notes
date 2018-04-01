@@ -1,0 +1,9 @@
+Link: https://www.programcreek.com/2013/04/how-to-format-java-code-by-using-eclipse-jdt/
+
+private void formatCU(ICompilationUnit compilationUnit) throws JavaModelException, BadLocationException {
+		CodeFormatter codeFormatter = ToolFactory.createCodeFormatter(null);
+		String code = compilationUnit.getBuffer().getContents();
+		TextEdit textEdit = codeFormatter.format(CodeFormatter.K_COMPILATION_UNIT, code , 0, code.length(), 0, null);
+		IDocument doc = new Document(code);
+		textEdit.apply(doc);
+	}
