@@ -1,0 +1,20 @@
+IEditorPart editorPart = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		if (editorPart != null) {
+			IFileEditorInput input = (IFileEditorInput)editorPart.getEditorInput() ;
+			IFile file = input.getFile();
+			IProject activeProject = file.getProject();
+
+			OpenResourceDialog dialog = new OpenResourceDialog(new Shell(), activeProject, IResource.FILE);
+			int code = dialog.open();
+			if (code==0) {
+				for (Object o : dialog.getResult()) {
+					IFile seletedFile = (IFile) o;
+					String path = seletedFile.getProjectRelativePath().toString().replace("src/", "").replace("main/", "").replace("resources/", "");
+					ExtJfxEditor activeEditor = (ExtJfxEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+					SetCommand setCommand = new SetCommand(activeEditor.getEditingDomain(), object, JfxPackage.Literals.JFX_STYLE_SHEET__STYLE_SHEET, path);
+					if (setCommand.canExecute()) {
+						activeEditor.getEditingDomain().getCommandStack().execute(setCommand);
+					}	
+				}
+			}
+		}
