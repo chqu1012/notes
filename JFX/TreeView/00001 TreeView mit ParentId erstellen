@@ -1,0 +1,52 @@
+package de.dc.spring.fx.reg.ui.provider;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import de.dc.spring.fx.reg.ui.model.Category;
+import de.dc.spring.fx.reg.ui.repository.CategoryRepository;
+import javafx.scene.control.TreeItem;
+
+public enum CategoryModelprovider {
+	instance;
+	
+	private CategoryRepository categoryRepository;
+	private Map<Integer, TreeItem<Category>> itemById = new HashMap<>();
+	private Map<Integer, Integer> parents = new HashMap<>();
+	
+	public TreeItem<Category> getAllContents() {
+		categoryRepository.findAll().stream().forEach(e->{
+			itemById.put(e.getId().intValue(), new TreeItem<Category>(e));
+			parents.put(e.getId().intValue(), e.getParentId());
+		});
+		
+		TreeItem<Category> root = new TreeItem<Category>(new Category("Category", 0));
+		for (Entry<Integer, TreeItem<Category>> entry : itemById.entrySet()) {
+		    int key = entry.getKey().intValue();
+		    int parent = parents.get(key);
+		    TreeItem<Category> value = entry.getValue();
+			if (parent==key) {
+		        // in case the root item points to itself, this is it
+		        root = value;
+		    } else {
+		        TreeItem<Category> parentItem = itemById.get(parent);
+		        if (parent==0) {
+		        	root.getChildren().add(value);
+		        }else {
+		            // add to parent treeitem
+		            parentItem.getChildren().add(value);
+		        }
+		    }
+		}
+		return root;
+	}
+	
+	public CategoryRepository getCategoryRepository() {
+		return categoryRepository;
+	}
+
+	public void setCategoryRepository(CategoryRepository categoryRepository) {
+		this.categoryRepository = categoryRepository;
+	}
+}
