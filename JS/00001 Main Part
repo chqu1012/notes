@@ -1,0 +1,42 @@
+<head>
+  <script src="js/main.js"/>
+  <div th:replace="fragment/header">
+  <script th:inline="javascript">
+    $(document).ready(function(){
+      initTableViewer();
+    })
+  </script>
+</head>
+
+<body>
+  <div th:replace="fragment/navigation" />
+  <div class="container-fluid">
+    <table id="customTableViewer" class="table table-sm table-striped nowrap">
+    </table>
+  </div>
+</body>
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+main.js
+
+var tableViewer;
+
+function (){
+  tableViewer = $("#customTableViewer").dataTable({
+    pageLength: 10,
+    lengthChange: false,
+    autoWidth: true,
+    pageing: true,
+    ajax:{
+      dataSrc: 'data',
+      url: '/data/entries'
+      type: 'POST'
+    },
+    columns: [ {"data" : "name"}, {"data" : "surname"}, {"data" : "age"}]
+  })
+  
+  document.getElementById("customTableViewer_filter").firstElementChild.firstElementChild.className = "background-color: transparent, border: 0"
+  // moving this to navigation panel --> ToDo
+  
+  tableViewer.fnAdjustColumnSizing();
+}
