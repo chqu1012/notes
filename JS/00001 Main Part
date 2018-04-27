@@ -4,6 +4,8 @@
   <script th:inline="javascript">
     $(document).ready(function(){
       initTableViewer();
+      initTableViewerClicklistener();
+      initDynamicComboBox();
     })
   </script>
 </head>
@@ -21,9 +23,35 @@ main.js
 
 var tableViewer;
 
-function (){
+function initTableViewerClicklistener(){
+
+}
+
+function initDynamicComboBox(){
+  val combobox = document.getElementById("combobox1");
+  
+  $.ajax({
+    type: "POST"
+    url: "/data/entries"
+    data: "{}",
+    contentType: "aaplication/json; charset=utf-8",
+    dataType: "json",
+    success: function(array){
+      var selectionValue = undefined;
+      combobox.options.length = 0;
+      combobox.options[0] = new Option("", "-- Selection --");
+      for(var i = 0; i< array.length; i++){
+        combo.options[combo.options.length] = new Option(array[i], array[i]);
+      }
+    }
+    error:
+      // TODO
+  })
+}
+
+function initTableViewer(){
   tableViewer = $("#customTableViewer").dataTable({
-    pageLength: 10,
+     pageLength: 10,
     lengthChange: false,
     autoWidth: true,
     pageing: true,
