@@ -1,0 +1,12 @@
+$('{SELECTION_ID').on('change', function () {
+$.ajax({
+      type: "POST",
+      url: "/data/entries/"+$(this).val(),
+      data: "{}",
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function(arr) {
+        table.DataTable().ajax.reload();
+      }
+  });
+});
