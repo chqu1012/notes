@@ -1,1 +1,9 @@
 <a class="btn btn-primary" id="newButton" href="javascript:" onclick="javascript:createEntry();">New</span></a>
+
+function createEntry() { 
+  $('#title').text('Add new person'); 
+  $('#name').val('');   
+  $('#age').val(''); 
+  $('#gender').val('');  
+  $('#editForm').modal();
+}
