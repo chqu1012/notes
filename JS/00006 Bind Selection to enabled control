@@ -1,0 +1,7 @@
+function enableControl(){
+  if (document.getElementsByClassName("selected").length > 0) {
+      $('#editButton').removeClass("disabled");
+  }else{
+      $('#editButton').addClass("disabled");
+  }
+}
