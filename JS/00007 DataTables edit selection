@@ -1,0 +1,24 @@
+1. Aufruf über Button
+    <a id="editButton" href="javascript:" onClick="javascript:editEntry();">Edit</a> 
+2. Form Dialog
+  <form method="post" th:action="@{saveEntry}" id="saveEntryForm" th:object="${entry}">
+  // Versteckte Felder die im Controller mitgegeben werden sollen
+  <input type="hidden" name="id" id="id" th:field="*{id}">
+  <input type="hidden" name="description" id="description" th:field="*{description}">
+  ...
+  </form>
+3. JavaScript Funktion
+  function editEntry(){
+    var entries = document.getElementsByClassName("selected");
+    if(entries.length ==1){
+      var selection = elements[0];
+      $('#title').text('Edit entry (' + selection.getAttribute('id') + ')');
+      $('#id').val(selection.getAttribute('id'));
+      // children[0] entspricht erste Spalte
+      $('#name').val(selection.children[0].innerText);    
+      // children[3] entspricht 4 Spalte
+      $('#gender').val(selection.children[3].innerText);    
+      $('#dialog').modal();
+    }
+  }
+  4. Controller wie tutorial erweitern für das Speichern des Entrys
