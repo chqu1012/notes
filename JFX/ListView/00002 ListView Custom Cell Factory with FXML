@@ -1,0 +1,42 @@
+registrationListView.setCellFactory(param -> new RegistrationListCell());
+
+---->
+
+public class RegistrationListCell extends ListCell<Registration> {
+ 
+	private Node node;
+	
+    public RegistrationListCell() {
+    	super();
+    }
+ 
+    @Override
+    public void updateItem(Registration cache, boolean empty) {
+        super.updateItem(cache, empty);
+        if (empty) {
+            clearContent();
+        } else {
+            addContent(cache);
+        }
+    }
+ 
+    private void clearContent() {
+        setText(null);
+        setGraphic(null);
+    }
+ 
+    private void addContent(Registration cache) {
+        setText(null);
+        if (node==null) {
+    		Platform.runLater(() -> {
+				try {
+	        		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/de/dc/spring/fx/reg/ui/two/Item2.fxml"));
+	        		node = fxmlLoader.load();
+	        		setGraphic(node);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}						
+			});
+		}
+    }
+}
