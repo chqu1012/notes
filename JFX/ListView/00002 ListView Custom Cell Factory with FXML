@@ -28,15 +28,19 @@ public class RegistrationListCell extends ListCell<Registration> {
     private void addContent(Registration cache) {
         setText(null);
         if (node==null) {
-    		Platform.runLater(() -> {
-				try {
-	        		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/de/dc/spring/fx/reg/ui/two/Item2.fxml"));
-	        		node = fxmlLoader.load();
-	        		setGraphic(node);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}						
-			});
-		}
+		try {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/de/dc/spring/fx/reg/ui/two/Item2.fxml"));
+		node = fxmlLoader.load();
+		controller = fxmlLoader.getController();
+		controller.setRegistration(registration);
+		setGraphic(node);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
+		return;
+	}else {
+		setGraphic(node);
+	controller.setRegistration(registration);
+	}
     }
 }
