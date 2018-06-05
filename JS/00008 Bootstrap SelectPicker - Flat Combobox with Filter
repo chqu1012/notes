@@ -1,0 +1,5 @@
+Link: https://silviomoreto.github.io/bootstrap-select/examples/
+
+* Default Value
+  <option value="-1">Bitte Auswählen</option>
+* class="selectionpicker form-control"
