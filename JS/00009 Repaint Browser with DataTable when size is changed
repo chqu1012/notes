@@ -1,0 +1,8 @@
+<script th:inline="javascript">
+$(window).on('resize', function(){
+  console.log('repaint');
+  if(datatable != indefined){
+    dattable.fnAdjustColumnSizing();
+  }
+})
+</script>
