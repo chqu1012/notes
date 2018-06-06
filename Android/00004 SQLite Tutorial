@@ -1,0 +1,18 @@
+Link: http://www.programmierenlernenhq.de/sqlite-datenbank-in-android-app-integrieren/
+
+* res/values/ 
+  string.xml - Konstanten
+  styles.xml - Aussehen
+  dimens.xml - Abstände
+* res/values/                          // android resource dicrectory
+  menu_main.xml               
+* res/layout/
+  activity_main.xml
+* Start Activity in AndroidManifest.xml festlegen
+* Beim Anlegen von Dateien im Android werden sie im Standard Verzeichnis abgelegt
+  > DATA/data/PACKAGE_NAME/databases/FILENAME
+  -- DATA - Environment.getDataDirectory() 
+* DBHelper definieren:
+  > DataDBHelper extends SQliteOpenHelper
+  > Im Konstrukor: super(context, DATENBANK_NAMEN, null, 1);
+  
