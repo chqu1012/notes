@@ -26,6 +26,8 @@ Link: http://www.programmierenlernenhq.de/sqlite-datenbank-in-android-app-integr
       dataSource = new ModelDataSource(this);
       dataSource.open();
     }
+* DELETE:
+  database.delete(DataDBHelper.TABLE_LIST, DataDBHelper.COL1+"="+id, values);
 * INSERT: 
   ContentValues values = new ContentValues();
   values.put(DataDBHelper.COL1, WERT1);
