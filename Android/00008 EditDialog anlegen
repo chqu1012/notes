@@ -1,0 +1,9 @@
+Link: http://www.programmierenlernenhq.de/daten-in-sqlite-datenbank-aendern-in-android/
+
+AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+LayoutFlater inflater = getActivity().getLayoutInflator();
+View dialogView = inflater.inflate(R.layout.dialog_edit_model, null);
+builder.setView(dialogView);
+
+AlertDialog editDialog = builder.create();
+editDialog.show();
