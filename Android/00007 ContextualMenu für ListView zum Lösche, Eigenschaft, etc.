@@ -1,0 +1,23 @@
+Link: http://www.programmierenlernenhq.de/daten-aus-sqlite-datenbank-loeschen-in-android/
+
+* ListView mit MultiSelekt einrichten
+  ListView dataListView;
+  dataListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+  
+* ListView Listener
+  dataListView.setMultiChoiceModeListener(...);
+  
+* Menü mit Actions füllen
+  onCreateActionMode(...){ getMenuInflator().inflate(R.menu.menu_contextual_action_bar, menu);}
+  
+* Auf Actions reagieren
+  onActionItemClicked(..){
+    switch(item.getItemid()){
+      case R.id.cab_delete:
+        deleteSelection();
+        mode.finish();
+        return true;
+      default:
+        return false;
+    }
+  }
