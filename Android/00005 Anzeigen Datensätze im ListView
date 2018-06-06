@@ -1,0 +1,7 @@
+Link: http://www.programmierenlernenhq.de/daten-in-sqlite-datenbank-schreiben-und-lesen-in-android/
+
+* Daten einer Liste für ListView vorbereiten
+  List<Model> modelList;
+  ArrayAdapter<Model> modelArrayAdapter = new ArrayAdapter<> (this, android.R.layout.simple_list_item_multiple_choice, modelList);
+  ListView modelListView = (ListView) findViewById(R.id.listview);
+  modelListView.setAdapter(modelArrayAdapter);
