@@ -1,4 +1,4 @@
-Link: https://www.genuitec.com/eclipse-shortcuts/
+Link: http://www.programmierenlernenhq.de/mit-sqlite-app-auf-benutzereingaben-reagieren-in-android/
 
 InputMethodManager inputMethodManager;
 inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
