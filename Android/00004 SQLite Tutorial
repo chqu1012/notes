@@ -4,20 +4,26 @@ Link: http://www.programmierenlernenhq.de/sqlite-datenbank-in-android-app-integr
   string.xml - Konstanten
   styles.xml - Aussehen
   dimens.xml - Abstände
+  
 * res/values/                          // android resource dicrectory
   menu_main.xml               
+
 * res/layout/
   activity_main.xml
+
 * Start Activity in AndroidManifest.xml festlegen
+
 * Beim Anlegen von Dateien im Android werden sie im Standard Verzeichnis abgelegt
   > DATA/data/PACKAGE_NAME/databases/FILENAME
   -- DATA - Environment.getDataDirectory() 
+
 * DBHelper definieren:
   > DataDBHelper extends SQliteOpenHelper
   > Im Konstrukor: super(context, DATENBANK_NAMEN, null, 1);
   > onCreate(SQLiteDatabase db){
       db.execSQL(DB_CREATE_STATEMENT);
     }
+
 * ModelDataSource definieren:
   > beinhalted DataDBHelper(conext);
   > #open(){database = db.getWritableDatabase();}
@@ -26,12 +32,18 @@ Link: http://www.programmierenlernenhq.de/sqlite-datenbank-in-android-app-integr
       dataSource = new ModelDataSource(this);
       dataSource.open();
     }
+
 * DELETE:
   database.delete(DataDBHelper.TABLE_LIST, DataDBHelper.COL1+"="+id, values);
+
 * INSERT: 
   ContentValues values = new ContentValues();
   values.put(DataDBHelper.COL1, WERT1);
   values.put(DataDBHelper.COL2, WERT2);
   database.insert(DataDBHelper.TABLE_LIST, null, values);
+
+* UPDATE:
+  database.update(DataDBHelper.TABLE_LIST, values, ModelDBHelper.COL1+"="+id, null);
+  
 * SELECT:
   database.query(DataDBHelper.TABLE_LIST, columns, DataDbHelper.COLUMN_ID + "=" + insertId, null, null, null, null);
