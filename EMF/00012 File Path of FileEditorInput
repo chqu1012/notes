@@ -1,0 +1,2 @@
+FileEditorInput i;
+String filePath = i.getFile().getLocation().toFile().getAbsolutePath();
