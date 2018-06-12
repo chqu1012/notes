@@ -1,0 +1,14 @@
+Link: https://www.youtube.com/watch?v=zAPULP5sreo&list=PL6j62WXKkENq1pM1vqv1P9abb99ttMiIZ&index=8&t=0s
+
+* ScrollView in Activity
+   - LinearLayout vertical
+      - LinearLayout vertical
+         - LinearLayout horizontal
+            - LinearLayout vertical
+               - ImageView 
+                  * background: Image
+            - TextView
+                * textStyle: normal
+                * textColor:
+               
+
