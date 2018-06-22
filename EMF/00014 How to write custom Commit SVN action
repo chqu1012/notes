@@ -1,0 +1,6 @@
+* Dependency: org.eclipse.team.svn
+* Extends org.eclipse.team.svn.ui.action.AbstractRecursiveTeamAction
+* Look for org.eclipse.team.svn.ui.action.local.CommitAction
+* Method runImpl will show you how to commit
+* Set custom commit message:
+  in the #svnOperations Method commitPanel.setMessage("Hello Commit Acction");
