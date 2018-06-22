@@ -1,0 +1,5 @@
+	@Override
+	protected void setShellStyle(int newShellStyle) {
+    super.setShellStyle(SWT.CLOSE | SWT.MODELESS | SWT.RESIZE | SWT.BORDER | SWT.TITLE);
+    super.setBlockOnOpen(false);
+  }
