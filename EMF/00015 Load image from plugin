@@ -1,0 +1,8 @@
+Link: https://stackoverflow.com/questions/23100074/import-image-into-eclipse-plugin
+
+public static Image load(String fileName){
+  Bundle bundle = Platform.getBundle("pluginId");
+  URL url = FileLocator.find(bundle, new Path("icons/"+fileName), null);
+  ImageDescriptor imageDescriptor = ImageDescriptor.createFromURL(url);
+  return imageDescriptor.createImage();
+}
