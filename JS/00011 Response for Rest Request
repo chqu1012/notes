@@ -1,0 +1,26 @@
+Links: https://stackoverflow.com/questions/24292373/spring-boot-rest-controller-how-to-return-different-http-status-codes
+----- JavaScript ---------------------------------------
+$.ajax({
+  type='post',
+  url='createData'
+  data: §('#createDataForm').serialize(),
+  success: function(data, textStatus){
+    if(textStatus='nocontent'){
+    
+    }
+  }
+});
+----- Java RestController ---------------------------------------
+@RestController{
+
+  @PostMapping("/createData")
+  public String createData(Model model, HttpServletResponse response){
+    boolean ok = true;
+    if(ok){
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+    }else{
+        response.setStatus(HttpServletResponse.SC_ACCEPTED);
+    }
+    return "";
+  }
+}
