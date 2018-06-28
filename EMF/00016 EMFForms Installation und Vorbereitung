@@ -1,0 +1,23 @@
+Link: https://eclipsesource.com/blogs/tutorials/getting-started-with-EMF-Forms/
+# Vorbereitung
+1. Emf Model Projekt schon angelegt
+2. Emf View Model Project anlegen
+3. View Model für die Instanz anlegen, Attribute auswählen die in der Ansicht angezeigt werden
+
+# Embedded View rendern
+* Benutze ECPSWTViewRenderer von org.eclipse.emf.ecp.ui.view.swt 
+   ECPSWTViewRenderer.INSTANCE.render(Composite parent, EObject domainObject);
+* Dependencies:
+    - org.eclipse.emf.ecp.view.model.provider.xmi
+    - org.eclipse.emf.ecp.view.model.provider.generator
+
+# Anwendung starten
+* Run Configuration: org.eclipse.emf.ecp.application.e3.application  --> e3
+                     org.eclipse.emf.ecp.application.e4.product      --> e4
+* Plug-Ins Tab:
+    - Features selected below: 
+         - Alles deselektieren
+         - org.eclipse.emf.ecp.demo.e3.feature hinzufügen (e3)
+         - org.eclipse.emf.ecp.demo.e4.feature hinzufügen (e4)
+         - Select required
+         
