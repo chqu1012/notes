@@ -1,0 +1,11 @@
+Link: https://github.com/yuriy-vantukh/javafx-tableview-crud-filtering/blob/master/src/main/java/project/controllers/PersonsController.java
+
+private void configColumn(final TableColumn<Person, String> COLUMN, Function<Person, String> getter, BiConsumer<Person, String> setter)    {
+  COLUMN.setCellValueFactory(column -> new SimpleStringProperty(getter.apply(column.getValue())));        
+  COLUMN.setCellFactory(TextFieldTableCell.forTableColumn());        
+  COLUMN.setOnEditCommit(t -> {            
+    Person person = t.getTableView().getItems().get(t.getTablePosition().getRow());            
+    String newValue = t.getNewValue();            
+    personView.update(person, setter, newValue);        
+  });    
+}
