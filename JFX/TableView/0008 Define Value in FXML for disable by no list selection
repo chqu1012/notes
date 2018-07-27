@@ -1,0 +1,6 @@
+<fx:define>            
+  <Integer fx:id="noSelection" fx:value="-1" />        
+</fx:define>
+
+ <ListView fx:id="list" items="${controller.items}"
+ <Button disable="${list.selectionModel.selectedIndex == noSelection}"/>
