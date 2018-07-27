@@ -1,0 +1,4 @@
+ * Initialize Controller:
+   <BorderPane fx:controller="controller.ViewController">
+ * Set Items -> Get the items (modelItems) from ControllerClass
+    <ListView fx:id="list" items="${controller.modelItems}"/>
