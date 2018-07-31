@@ -1,0 +1,5 @@
+Link:https://stackoverflow.com/questions/36960844/how-to-open-a-pdf-file-javafx
+
+File file = new File("C:/Users/YourUsername/Desktop/Test.pdf");
+HostServices hostServices = getHostServices();
+hostServices.showDocument(file.getAbsolutePath());
