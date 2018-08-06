@@ -1,0 +1,5 @@
+Link: https://www.programcreek.com/java-api-examples/?api=javafx.beans.binding.Bindings
+
+MenuItem comment = new MenuItem("Comment ...");
+MenuItem comment = new MenuItem("Comment ...");
+comment.setAccelerator(KeyCodeCombination.keyCombination("Ctrl+k"));
