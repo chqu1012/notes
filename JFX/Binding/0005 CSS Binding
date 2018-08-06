@@ -1,0 +1,20 @@
+Link: https://www.programcreek.com/java-api-examples/?api=javafx.beans.binding.Bindings
+
+public CSSTheme() {
+        css.bind(Bindings.createStringBinding(() -> String.format(
+                ".root { %n  "
+               + "-fx-base: %s;%n  "
+               + "-fx-background: %s;%n  "
+               + "-fx-accent: %s;%n  "
+               + "-fx-default-button: %s;%n  "
+               + "-fx-focus-color: %s;%n  "
+               + "-fx-faint-focus-color: %s;%n}",
+                ColorEncoder.encodeColor((Color) base.get()),
+                ColorEncoder.encodeColor((Color) background.get()),
+                ColorEncoder.encodeColor((Color) accent.get()),
+                ColorEncoder.encodeColor((Color) defaultButton.get()),
+                ColorEncoder.encodeColor((Color) focusColor.get()),
+                ColorEncoder.encodeColor((Color) faintFocusColor.get())),
+                base, background, accent, defaultButton, focusColor, faintFocusColor));
+    }
+}
