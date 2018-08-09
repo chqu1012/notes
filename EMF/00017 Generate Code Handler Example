@@ -1,0 +1,72 @@
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.stream.Stream;
+
+import org.apache.commons.io.FileUtils;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.PlatformUI;
+
+public class GenerateFXProjectHandler extends org.eclipse.core.commands.AbstractHandler {
+
+	@Override
+	public Object execute(ExecutionEvent e) throws ExecutionException {
+		DirectoryDialog dd = new DirectoryDialog(new Shell());
+		String path = dd.open();
+		if (path != null) {
+			IEditorPart activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+					.getActiveEditor();
+			if (activeEditor instanceof FxspEditor) {
+				FxspEditor editor = (FxspEditor) activeEditor;
+				EObject resource = editor.getEditingDomain().getResourceSet().getResources().get(0).getContents()
+						.get(0);
+				if (resource != null && resource instanceof FXSPProject) {
+					FXSPProject project = (FXSPProject) resource;
+					String projectPath = path+"/"+project.getPackagePath()+"."+project.getName().toLowerCase();
+					project.setGeneratedPath(projectPath);
+					
+					createFolder(projectPath);
+					createFolder(projectPath+"/.settings");
+					createFolder(projectPath+"/data");
+					createFolder(projectPath+"/src/test/java");
+				
+					 Stream<TemplateRegistry> nonDynamicTpls = Arrays.stream(TemplateRegistry.values()).filter(u -> !u.isDynamicFile());
+					 Stream<TemplateRegistry> dynamicTpls = Arrays.stream(TemplateRegistry.values()).filter(u -> u.isDynamicFile());
+					 
+					 nonDynamicTpls.forEach(u -> createFile(projectPath+u.getGeneratedPath(), u.getTemplate().gen(project)));
+					 dynamicTpls.forEach(u -> u.getTemplate().gen(project));
+					 
+					 // Generate manually
+					 new CSSTableTemplate().gen(project);
+					 new FXMLDBAdminTemplate().gen(project);
+					 new FXMLCalendarTemplate().gen(project);
+					 new UserTemplate().gen(project);
+					 new SecurityGroupTemplate().gen(project);
+				}
+			}
+
+		}
+		return null;
+	}
+
+	public File createFile(String path, String content) {
+		File file = new File(path);
+		try {
+			FileUtils.write(file, content);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return file;
+	}
+	
+	public File createFolder(String path) {
+		File file = new File(path);
+		file.mkdirs();
+		return file;
+	}
+}
