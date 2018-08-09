@@ -1,4 +1,6 @@
-package de.dc.swt.dialog.lang.jvmmodel
+grammar de.dc.swt.dialog.lang.DialogDsl with org.eclipse.xtext.xbase.Xbase
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 import com.google.inject.Inject
 import de.dc.swt.model.swtcore.Dialog
