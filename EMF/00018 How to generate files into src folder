@@ -1,0 +1,47 @@
+IProject project = getCurrentProject();
+project.open(null);
+IJavaProject javaProject = JavaCore.create(project);
+IFolder srcFolder = getFolder(javaProject, "src");
+IFolder srcGenFolder = getFolder(javaProject, "src-gen");
+IFolder testFolder = getFolder(javaProject, "test");
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	private void createJavaClass(IJavaProject javaProject, IFolder folder, String content, String fileName, String packagePath, String srcPath)
+			throws CoreException, JavaModelException {
+		IPackageFragment newPackage = createPackage(javaProject, folder, packagePath, srcPath);
+		newPackage.getResource().refreshLocal(DEPTH_INFINITE, null);
+		if(newPackage.getCompilationUnit(fileName).exists()){
+			newPackage.getCompilationUnit(fileName).delete(true, null);
+		}
+		ICompilationUnit cu = newPackage.createCompilationUnit(fileName, content, false, null);
+		cu.getResource().refreshLocal(DEPTH_INFINITE, null);
+		cu.open(null);
+	}
+
+	
+	private IPackageFragment createPackage(IJavaProject javaProject, IFolder folder, String path, String srcPath) throws CoreException {
+		IPackageFragmentRoot f = javaProject.getPackageFragmentRoot(getFolder(javaProject, srcPath));
+		IPackageFragment packFragment = f.createPackageFragment(path, true, null);
+		return packFragment;
+	}
+
+	private IFolder getFolder(IJavaProject javaProject, String name) throws CoreException {
+		IFolder folder = javaProject.getProject().getFolder(name);
+		if (!folder.exists()) {
+			folder.create(true, true, null);
+		}
+		return folder;
+	}
+	
+	public static IProject getCurrentProject() {
+		IEditorPart editorPart = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+
+		if (editorPart != null) {
+			IFileEditorInput input = (IFileEditorInput) editorPart.getEditorInput();
+			IFile file = input.getFile();
+			IProject activeProject = file.getProject();
+			return activeProject;
+		}
+		return null;
+	}
