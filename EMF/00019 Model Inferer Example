@@ -1,0 +1,116 @@
+package de.dc.swt.dialog.lang.jvmmodel
+
+import com.google.inject.Inject
+import de.dc.swt.model.swtcore.Dialog
+import de.dc.swt.util.SwtTemplateUtil
+import org.eclipse.emf.common.util.EList
+import org.eclipse.jface.dialogs.IDialogConstants
+import org.eclipse.jface.dialogs.IMessageProvider
+import org.eclipse.jface.dialogs.TitleAreaDialog
+import org.eclipse.swt.events.SelectionEvent
+import org.eclipse.xtext.common.types.JvmMember
+import org.eclipse.xtext.common.types.JvmVisibility
+import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer
+import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor
+import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
+import org.eclipse.swt.widgets.Shell
+import org.eclipse.swt.widgets.Control
+import org.eclipse.swt.widgets.Composite
+import de.dc.swt.model.swtcore.ScrolledComposite
+import de.dc.swt.model.swtcore.Button
+import de.dc.swt.model.swtcore.Label
+import de.dc.swt.model.swtcore.Spinner
+import de.dc.swt.model.swtcore.Text
+import de.dc.swt.model.swtcore.Combo
+import de.dc.swt.model.swtcore.Table
+import de.dc.swt.model.swtcore.GridData
+import org.eclipse.swt.SWT
+
+class DialogDslJvmModelInferrer extends AbstractModelInferrer {
+
+	@Inject extension JvmTypesBuilder
+
+	extension SwtTemplateUtil = new SwtTemplateUtil
+	
+	def dispatch void infer(Dialog element, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
+   		acceptor.accept(element.toClass(element.packagePath+'.Base'+element.name)) [
+   			superTypes += TitleAreaDialog.typeRef
+			abstract = true
+			members += element.toConstructor [
+				parameters += toParameter(element, 'shell', Shell.typeRef)
+				body = '''super(shell);
+				'''
+			]
+			members += toMethod(element, 'createContents', Control.typeRef)[
+				parameters += toParameter(element, 'parent', Composite.typeRef)
+				visibility = JvmVisibility::PROTECTED
+				body = '''«Control» contents = super.createContents(parent);
+				setTitle("«element.title»");
+				setMessage("«element.message»", «IMessageProvider.INFORMATION»);
+				return contents;'''
+			]
+			members += toMethod(element, 'createDialogArea', Control.typeRef)[
+				parameters += toParameter(element, 'parent', Composite.typeRef)
+				visibility = JvmVisibility::PROTECTED
+				body = '''«Composite» composite = («Composite») super.createDialogArea(parent);
+				Composite client = new Composite(composite, SWT.NONE);
+				client.setLayoutData(new «org.eclipse.swt.layout.GridData»(SWT.FILL, SWT.FILL, true, true, 1, 1));
+				client.setLayout(«element.layout.layout»);
+				«IF element.layoutdata!=null && element.layoutdata instanceof GridData»
+				«val ld = element.layoutdata as GridData»
+				client.setLayoutData(new «org.eclipse.swt.layout.GridData»(«SWT».«ld.horizontalAlignment.toString.toUpperCase», SWT.«ld.verticalAlignment.toString.toUpperCase», «ld.grabExcessHorizontalSpace», «ld.grabExcessVerticalSpace», «ld.horizontalSpan», «ld.verticalSpan»));
+				«ENDIF»
+				«FOR c : element.controls»
+				«c.widget('client')»
+				«ENDFOR»
+				return composite;'''
+			]
+			members += toMethod(element, 'createButtonsForButtonBar', void.typeRef)[
+				parameters += toParameter(element, 'parent', Composite.typeRef)
+				visibility = JvmVisibility::PROTECTED
+				body = '''createButton(parent, «IDialogConstants.OK_ID», "«IDialogConstants.OK_LABEL»", true);'''
+			]
+			members.initFields(element.controls)
+   		]
+	}
+	
+	def initFields(EList<JvmMember> members, EList<de.dc.swt.model.swtcore.Control> controls) {
+		for (c : controls) {
+			if (c instanceof Button) {
+				members += toMethod(c, 'on' + c.name.toFirstUpper, void.typeRef) [
+					abstract = true
+					visibility = JvmVisibility::PROTECTED
+					parameters += toParameter(c, 'e', SelectionEvent.typeRef)
+				]
+				members += toField(c, c.name, org.eclipse.swt.widgets.Button.typeRef) [
+					visibility = JvmVisibility::PROTECTED
+				]
+			} else if (c instanceof Label) {
+				members += toField(c, c.name, org.eclipse.swt.widgets.Label.typeRef) [
+					visibility = JvmVisibility::PROTECTED
+				]
+			} else if (c instanceof Spinner) {
+				members += toField(c, c.name, org.eclipse.swt.widgets.Spinner.typeRef) [
+					visibility = JvmVisibility::PROTECTED
+				]
+			} else if (c instanceof Text) {
+				members += toField(c, c.name, org.eclipse.swt.widgets.Text.typeRef) [
+					visibility = JvmVisibility::PROTECTED
+				]
+			} else if (c instanceof Combo) {
+				members += toField(c, c.name, org.eclipse.swt.widgets.Combo.typeRef) [
+					visibility = JvmVisibility::PROTECTED
+				]
+			}else if (c instanceof Table) {
+				members += toField(c, c.name, org.eclipse.swt.widgets.Table.typeRef) [
+					visibility = JvmVisibility::PROTECTED
+				]
+			} else if (c instanceof ScrolledComposite) {
+				members += toField(c, c.name, Composite.typeRef) [
+					visibility = JvmVisibility::PROTECTED
+				]
+				initFields(members, c.controls)
+			}
+		}
+	}
+}
