@@ -1,0 +1,11 @@
+Link: http://www.opcoach.com/en/how-to-properly-override-the-generated-emf-code/
+
+* Intercace überschreiben
+  Hier: interface MyRentalFactory extends RentalFactory
+* Implementierung
+  class MyRentalFactoryImpl extends RentalFactoryImpl implements MyRentalFactory
+* plugin.xml erweitern
+  Extension Point: org.eclipse.emf.ecore.factory_override
+                      -> packagePath.MyRentalFacotryImpl 
+  
+  
