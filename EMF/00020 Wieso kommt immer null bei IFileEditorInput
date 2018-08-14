@@ -1,0 +1,3 @@
+Damit kein null bei der Abfrage von IEditorInput kommt, muss die Resource in ein Package liegen, unter einem Verzeichnis klappt das nicht.
+
+Verzeichnis != Package
