@@ -1,0 +1,3 @@
+Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), new TreeLoadingEventHandler(controller)));
+timeline.setCycleCount(Timeline.INDEFINITE);
+timeline.play();
