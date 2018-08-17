@@ -1,0 +1,9 @@
+Link: https://stackoverflow.com/questions/40591913/how-to-remove-hyperlink-border-in-javafx
+
+.hyperlink {
+    -fx-border-color: transparent;
+    -fx-padding: 4 0 4 0;
+}
+
+link.setBorder(Border.EMPTY);
+link.setPadding(new Insets(4, 0, 4, 0));
