@@ -1,0 +1,7 @@
+link: https://stackoverflow.com/questions/25876635/how-to-create-an-xcore-resource-from-an-ecore-model
+
+A eclipse forum entry led me to the correct path:
+
+First you need to create a genmodel for the ecore model. This is done via New -> Other -> EMF Generator Model and following the steps in the wizard. After that go to the context menu of the genmodel and select Export Model... -> Xcore and follow the steps in the wizard.
+
+EDIT: In the meanwhile I also found the mentioning of this in the Eclipsepedia article: http://wiki.eclipse.org/Xcore#Converting_a_GenModel_to_an_Xcore_Model
