@@ -1,0 +1,19 @@
+	@Override
+	protected void onFileListDragDropped(DragEvent event) {
+		 Dragboard db = event.getDragboard();
+         boolean success = false;
+         if (db.hasFiles()) {
+        	 populateFilesData(db.getFiles());
+             success = true;
+         }
+         event.setDropCompleted(success);
+         event.consume();
+	}
+
+	@Override
+	protected void onFileListDragOver(DragEvent event) {
+		 if (event.getGestureSource() != fileListView && event.getDragboard().hasFiles()) {
+             event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+         }
+         event.consume();
+	}
