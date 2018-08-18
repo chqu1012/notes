@@ -1,0 +1,13 @@
+Link: https://dzone.com/articles/handling-keyboard-sortcuts
+
+  private KeyCombination keyComboPaste = new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN);
+
+	@Override
+	protected void onListViewKeyPressed(KeyEvent event) {
+		System.out.println(event);
+		if (keyComboPaste.match(event)) {
+           List<File> files = ClipboardHelper.getFiles();
+           System.out.println(files.size());
+           populateFilesData(files);
+        }
+	}
