@@ -1,0 +1,13 @@
+Link: https://eclipsesource.com/de/blogs/tutorials/emf-tutorial/
+
+@Override
+protected void addMatchup() {
+ // add a new Matchup using a Command
+ Matchup matchup = BowlingFactory.eINSTANCE.createMatchup();
+ EditingDomain editingDomain = AdapterFactoryEditingDomain
+.getEditingDomainFor(getTournament());
+ Command command = AddCommand.create(editingDomain, getTournament(),
+   BowlingPackage.eINSTANCE.getTournament_Matchups(),
+   matchup);
+ editingDomain.getCommandStack().execute(command);
+}
