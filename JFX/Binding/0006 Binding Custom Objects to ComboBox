@@ -1,0 +1,6 @@
+Link: https://stackoverflow.com/questions/34506662/javafx-combobox-binding
+
+Student student = ... ;
+ComboBox<Teacher> teachers = new ComboBox<>();
+// populate combo box...
+teachers.valueProperty().bindBidirectional(student.teacherProperty());
