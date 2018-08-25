@@ -1,0 +1,5 @@
+Link: https://stackoverflow.com/questions/27005861/calculate-days-between-two-dates-in-java-8
+
+LocalDate dateBefore;
+LocalDate dateAfter;
+long daysBetween = DAYS.between(dateBefore, dateAfter);
