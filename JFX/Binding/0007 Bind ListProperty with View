@@ -1,0 +1,7 @@
+Link: https://rterp.wordpress.com/2015/09/21/binding-a-list-of-strings-to-a-javafx-listview/
+
+* ListProperty<String> listProperty = new SimpleListProperty<>();
+* Setting ListProperty
+  listProperty.set(FXCollections.observableArrayList(europeanCurrencyList));
+* Binding List with View
+  myListView.itemsProperty().bind(listProperty);
