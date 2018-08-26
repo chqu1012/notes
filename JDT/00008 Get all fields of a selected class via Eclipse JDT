@@ -1,4 +1,5 @@
 Link: https://stackoverflow.com/questions/6000668/ifields-for-all-variables-from-compilationunit
+Helpful Link: https://www.programcreek.com/java-api-examples/?class=org.eclipse.jdt.internal.ui.dialogs.FilteredTypesSelectionDialog&method=open
 
 public class FillEntityFieldsByJavaClassAction implements IActionDelegate{
 
