@@ -1,0 +1,3 @@
+Link: https://stackoverflow.com/questions/49543782/java-stream-map-capitalize-first-letter-only
+
+name.substring(0, 1).toUpperCase() + name.substring(1))
