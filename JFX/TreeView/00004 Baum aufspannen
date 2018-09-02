@@ -1,0 +1,11 @@
+	private void loadModel() {
+		NavigationModel input = provider.buildTree(navigationModelRepository.findAll());
+		treeView.setInput(input);
+		treeView.getRoot().setExpanded(true);
+		treeView.getRoot().getChildren().forEach(this::expandNodeAndChilren);
+	}
+
+	private void expandNodeAndChilren(TreeItem<NavigationModel> node) {
+		node.setExpanded(true);
+		node.getChildren().forEach(this::expandNodeAndChilren);
+	}
