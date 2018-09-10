@@ -1,1 +1,101 @@
 Link: http://www.kware.net/?p=204
+Link: https://stackoverflow.com/questions/48672861/use-a-texfield-to-search-filter-an-treeview#
+
+import java.util.Arrays;
+import java.util.List;
+import javafx.application.Application;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.scene.Scene;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+
+public class TreeViewSample extends Application {
+
+    List<Employee> employees = Arrays.<Employee>asList(
+            new Employee("Ethan Williams", "Sales Department"),
+            new Employee("Emma Jones", "Sales Department"),
+            new Employee("Michael Brown", "Sales Department"),
+            new Employee("Anna Black", "Sales Department"),
+            new Employee("Rodger York", "Sales Department"),
+            new Employee("Susan Collins", "Sales Department"),
+            new Employee("Mike Graham", "IT Support"),
+            new Employee("Judy Mayer", "IT Support"),
+            new Employee("Gregory Smith", "IT Support"),
+            new Employee("Jacob Smith", "Accounts Department"),
+            new Employee("Isabella Johnson", "Accounts Department"));
+
+    TreeItem<String> rootNode = 
+        new TreeItem<String>("MyCompany Human Resources");
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage stage) {
+        rootNode.setExpanded(true);
+
+        ObservableList<TreeItem<String>> firstLevel = FXCollections.observableArrayList();
+
+        for (Employee employee : employees) {
+            TreeItem<String> empLeaf = new TreeItem<String>(employee.getName());
+            firstLevel.add(empLeaf);
+        }
+
+        TextField textField = new TextField();
+        FilteredList<TreeItem<String>> filteredList = new FilteredList<>(firstLevel, item -> true);
+        filteredList.predicateProperty().bind(Bindings.createObjectBinding(() -> {
+            String filter = textField.getText();
+            if (filter.isEmpty()) return item -> true ;
+            return item -> item.getValue().toLowerCase().contains(filter.toLowerCase()) ;
+        }, textField.textProperty()));
+
+        Bindings.bindContent(rootNode.getChildren(), filteredList);      
+
+        stage.setTitle("Tree View Sample");
+        VBox box = new VBox();
+        box.getChildren().add(textField);
+        final Scene scene = new Scene(box, 400, 300);
+        scene.setFill(Color.LIGHTGRAY);
+
+        TreeView<String> treeView = new TreeView<String>(rootNode);
+        box.getChildren().add(treeView);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public static class Employee {
+
+        private final SimpleStringProperty name;
+        private final SimpleStringProperty department;
+
+        private Employee(String name, String department) {
+            this.name = new SimpleStringProperty(name);
+            this.department = new SimpleStringProperty(department);
+        }
+
+        public String getName() {
+            return name.get();
+        }
+
+        public void setName(String fName) {
+            name.set(fName);
+        }
+
+        public String getDepartment() {
+            return department.get();
+        }
+
+        public void setDepartment(String fName) {
+            department.set(fName);
+        }
+    }
+}
