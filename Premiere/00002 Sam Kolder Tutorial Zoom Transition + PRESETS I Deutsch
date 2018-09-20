@@ -1,0 +1,18 @@
+Link: https://www.youtube.com/watch?v=LD8NRUtNyN0
+
+1. 10 Frames (Shift + Pfeil link 2 mal) vom Ende Clip 1 cut (Strg + k)
+2. 10 Frames vom Anfang Clip 2
+3. Wiederholen Effekt auf Clip 2 // Ist dafür da um den Schwrzen Rand zu befüllen
+  * Anzahl: 3
+4. Spiegeln auf Clip2 4 mal, jedes mal
+  * Winkel 90 grad, Mittelpunkt Y Verschiebung
+  * Winkel -90 Grad, Mittelpunkt Y Verschiebung
+  * Winkel 180 Grad, Mittelpunkt X Verschiebung
+5. Transformieren:
+  * KeyFrame setzen am Anfang des Clips 100 (Stoppuhr)
+  * KeyFrame setzen am Anfang des Clips 300
+  Motion Blur Effekt: 
+    * Anklicken: Verschlusswinkel d. Komp. verw.
+    * Verschlusswinkel: 360
+    * Skalieren bei KeyFrame Ansicht runder machen (Kurviger machen und nicht linear)
+ 6. von den anderne Clip gleich vorgehen.
