@@ -1,0 +1,77 @@
+package revision.example;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.transport.FetchResult;
+import org.eclipse.jgit.transport.TrackingRefUpdate;
+
+public class JRegisRepositoryTest {
+
+	static String REPO_PATH = "E:\\Development\\Photon-Workspace\\revision.example\\repository\\.git";
+
+	public static void main(String[] args) {
+		try {
+			FileRepositoryBuilder repositoryBuilder = new FileRepositoryBuilder();
+			Repository repository = repositoryBuilder.setGitDir(new File(REPO_PATH))
+			                .readEnvironment() // scan environment GIT_* variables
+			                .findGitDir() // scan up the file system tree
+			                .setMustExist(true)
+			                .build();
+			
+			getAllMessages();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void getAllMessages() {
+	    File gitWorkDir = new File(REPO_PATH);
+		try {
+	        Git git = Git.open(gitWorkDir);
+	        Iterable<RevCommit> commits = git.log().all().call();
+	        Repository repo = git.getRepository();
+	        String branch = repo.getBranch();
+	        
+	        while (commits.iterator().hasNext()) {
+				RevCommit commit = commits.iterator().next();
+		        String name = commit.getName();
+		        String message = commit.getFullMessage();
+		        PersonIdent authorIdent = commit.getAuthorIdent();
+		        System.out.println(name+" : "+message+" ["+authorIdent.getName()+" - "+authorIdent.getEmailAddress()+"]");
+			}
+	    } catch (Throwable e) {
+	    	e.printStackTrace();
+	    }
+	}
+	
+	private List<TrackingRefUpdate> fetch(Repository repository) throws Exception {
+//	       logger.info("Fetching changes of repository {}", repository.getDirectory().toString());
+	       try (Git git = new Git(repository)) {
+	   		FetchResult result = git.fetch().call();
+	   		
+	   		Collection<TrackingRefUpdate> updates = result.getTrackingRefUpdates();
+	   		List<TrackingRefUpdate> remoteRefsChanges = new ArrayList<TrackingRefUpdate>();
+	   		for (TrackingRefUpdate update : updates) {
+	   			String refName = update.getLocalName();
+	   			if (refName.startsWith(REMOTE_REFS_PREFIX)) {
+	   				ObjectId newObjectId = update.getNewObjectId();
+	   				remoteRefsChanges.add(update);
+	   			}
+	   		}
+	   		if (updates.isEmpty()) {
+//	   			logger.info("Nothing changed");
+	   		}
+	   		return remoteRefsChanges;
+	       }
+	}
+}
