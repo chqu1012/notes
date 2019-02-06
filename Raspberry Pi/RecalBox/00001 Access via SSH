@@ -1,14 +1,13 @@
 Link: https://github.com/recalbox/recalbox-os/wiki/Root-access-on-terminal-%28EN%29
 
 Root access on terminal (EN)
-Roberto Besser edited this page on 21 Apr 2018 · 7 revisions
 In order to get a terminal with root access on the recalbox, you have two options:
 
 SSH
 
-On a Mac you can use the internal terminal
-On Windows you can use PuTTy (Recommended terminal) or MobaXTerm
-For Linux systems you can use the internal shell resp. terminal.
+* On a Mac you can use the internal terminal 
+* On Windows you can use PuTTy (Recommended terminal) or MobaXTerm
+* For Linux systems you can use the internal shell resp. terminal.
 Type: ssh root@your_recalbox_ip
 To connect through SSH to your recalbox, the following credentials are used:
 
