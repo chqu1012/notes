@@ -1,0 +1,19 @@
+Link: https://www.grokkingandroid.com/intents-of-androids-calendar-app/
+
+Calendar cal = new GregorianCalendar(); 
+cal.setTime(new Date()); 
+cal.add(Calendar.MONTH, 2); 
+Intent intent = new Intent(Intent.ACTION_INSERT); 
+intent.setData(Events.CONTENT_URI); 
+intent.putExtra(Events.TITLE, "Some Test Event"); 
+intent.putExtra(Events.ALL_DAY, true); 
+intent.putExtra(
+      CalendarContract.EXTRA_EVENT_BEGIN_TIME, 
+      cal.getTime().getTime()); 
+intent.putExtra(
+      CalendarContract.EXTRA_EVENT_END_TIME, 
+      cal.getTime().getTime() + 600000); 
+intent.putExtra(
+      Intent.EXTRA_EMAIL, 
+      "attendee1@yourtest.com, attendee2@yourtest.com"); 
+startActivity(intent);
