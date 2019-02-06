@@ -1,0 +1,32 @@
+Link: https://stackoverflow.com/questions/49887915/how-do-i-programmatically-add-reminders-to-a-calendar-event-using-events-uri
+
+public void addEventToCalendar(String EventTitle, String EventDescription, String EventLocation, int EventStartDateYear, int EventStartDateMonth, int EventStartDateDay, int EventEndDateYear, int EventEndDateMonth, int EventEndDateDay, int BeginHour, int BeginMin, int EndHour, int EndMin, Boolean AllDay, String EventFrequency) {
+    Toast.makeText(this, "Adding Event To Your Calendar...", Toast.LENGTH_SHORT).show();
+    ContentValues event = new ContentValues();
+    Calendar startcalendar = Calendar.getInstance();
+    Calendar endcalendar = Calendar.getInstance();
+    startcalendar.set(EventStartDateYear, EventStartDateMonth, EventStartDateDay, BeginHour, BeginMin);
+    endcalendar.set(EventStartDateYear, EventEndDateMonth, EventEndDateDay, EndHour, EndMin);
+    event.put(CalendarContract.Events.CALENDAR_ID, 1);
+    event.put(CalendarContract.Events.TITLE, EventTitle);
+    event.put(CalendarContract.Events.DESCRIPTION, EventDescription);
+    event.put(CalendarContract.Events.EVENT_LOCATION, EventLocation);
+    event.put(CalendarContract.Events.DTSTART, startcalendar.getTimeInMillis());
+    event.put(CalendarContract.Events.DTEND, endcalendar.getTimeInMillis());
+    event.put(CalendarContract.Events.ALL_DAY, AllDay);
+    event.put(CalendarContract.Events.HAS_ALARM, true);
+    event.put(CalendarContract.Events.RRULE, EventFrequency);
+    event.put(CalendarContract.Events.EVENT_TIMEZONE, "GMT-05:00");
+
+    Uri url = getContentResolver().insert(CalendarContract.Events.CONTENT_URI, event);
+
+    long eventId = Long.parseLong(url.getLastPathSegment());
+
+    ContentValues reminder = new ContentValues();
+    reminder.put(CalendarContract.Reminders.EVENT_ID, eventId);
+    reminder.put(CalendarContract.Reminders.MINUTES, 10);
+    reminder.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
+    getContentResolver().insert(CalendarContract.Reminders.CONTENT_URI, reminder);
+
+    Toast.makeText(this, "Event Added To Your Calendar!", Toast.LENGTH_SHORT).show();
+}
