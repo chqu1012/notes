@@ -1,0 +1,49 @@
+Link:https://stackoverflow.com/questions/52144931/how-to-add-javafx-runtime-to-eclipse-in-java-11
+
+Following the getting started guide, these are the required steps to run JavaFX 11 from Eclipse.
+
+1 Install Eclipse 2018-09 from here.
+
+2 Install JDK 11 from here.
+
+3 Add Java 11 as an installed JRE to Eclipse: Eclipse -> Window -> Preferences -> Java -> Installed JREs -> Add.
+
+4 Download JavaFX 11 ea from here.
+
+5 Create a User Library: Eclipse -> Window -> Preferences -> Java -> Build Path -> User Libraries -> New. Name it JavaFX11 and include the jars under the lib folder from JavaFX 11-ea.
+
+6 Create a Java project. You don't need to add a module-path class. Make sure that you select Java 11 and you add the JavaFX11 library to the project's modulepath.
+
+7 Add a package javafx11 and the main application class HelloFX:
+
+package javafx11;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
+
+public class HelloFX extends Application {
+
+    @Override
+    public void start(Stage stage) {
+        String version = System.getProperty("java.version");
+        Label l = new Label ("Hello, JavaFX 11, running on "+version);
+        Scene scene = new Scene (new StackPane(l), 300, 200);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public static void main(String[] args) {
+        launch();
+    }
+
+}
+Note that the editor shouldn't complain about JavaFX classes, as we have included the user library.
+
+8 Add runtime arguments. Edit the project's run configuration, and add these VM arguments:
+
+--module-path C:\Users\<user>\Downloads\javafx-sdk-11\lib --add-modules=javafx.controls
+9 Finally, run the project. It should work fine.
