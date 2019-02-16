@@ -1,0 +1,13 @@
+Link: https://github.com/SomMeri/org.meri.jpa.tutorial/blob/master/src/main/java/org/meri/jpa/relationships/entities/onetoone/OneToOneInverse.java
+
+Person{
+  @OneToOne
+  Addresse addresse;
+}
+
+Addresse{
+  @OneToOne(mappedBy="addresse")
+  Person person;
+}
+
+!Rückbeziehung ist notwendig mit MappedBy
